@@ -1,22 +1,25 @@
 /*
  * Intel ACPI Component Architecture
- * AML/ASL+ Disassembler version 20200110 (64-bit version)
- * Copyright (c) 2000 - 2020 Intel Corporation
+ * AML/ASL+ Disassembler version 20180105 (64-bit version)
+ * Copyright (c) 2000 - 2018 Intel Corporation
  * 
  * Disassembling to symbolic ASL+ operators
  *
- * Disassembly of iASL5ObPdX.aml, Wed Jul 15 23:03:27 2020
+ * Disassembly of DSDT.aml, Thu Jul  9 08:28:11 2020
+
  *
  * Original Table Header:
  *     Signature        "DSDT"
- *     Length           0x0001D9BC (121276)
+ *     Length           0x0001F2A2 (127650)
+
  *     Revision         0x02
- *     Checksum         0x6F
+ *     Checksum         0x56
  *     OEM ID           "SECCSD"
  *     OEM Table ID     "LH43STAR"
+
  *     OEM Revision     0x01072009 (17244169)
  *     Compiler ID      "INTL"
- *     Compiler Version 0x20200110 (538968336)
+ *     Compiler Version 0x20160422 (538313762)
  */
 DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 {
@@ -42,6 +45,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
     External (_PR_.PDTS, UnknownObj)
     External (_PR_.PKGA, UnknownObj)
     External (_PR_.POWS, UnknownObj)
+    External (_PR_.PR00.LPSS, PkgObj)
     External (_PR_.PR00.TPSS, PkgObj)
     External (_PR_.PSTE, UnknownObj)
     External (_PR_.TRPD, UnknownObj)
@@ -65,14 +69,14 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
     External (_SB_.PCI0.GFX0.GSCI, MethodObj)    // 0 Arguments
     External (_SB_.PCI0.GFX0.GSSE, UnknownObj)
     External (_SB_.PCI0.GFX0.LBTU, MethodObj)    // 1 Arguments
+    External (_SB_.PCI0.GFX0.PDRD, MethodObj)    // 0 Arguments
     External (_SB_.PCI0.GFX0.STAT, UnknownObj)
     External (_SB_.PCI0.GFX0.TCHE, UnknownObj)
     External (_SB_.PCI0.HDAS.PPMS, MethodObj)    // 1 Arguments
     External (_SB_.PCI0.HDAS.PS0X, MethodObj)    // 0 Arguments
     External (_SB_.PCI0.HDAS.PS3X, MethodObj)    // 0 Arguments
-    External (_SB_.PCI0.LPCB.EC__.BAT1, UnknownObj)
-    External (_SB_.PCI0.LPCB.EC__.CHRG, DeviceObj)
-    External (_SB_.PCI0.LPCB.EC__.SEN1, DeviceObj)
+    External (_SB_.PCI0.LPCB.H_EC.CHRG, DeviceObj)
+    External (_SB_.PCI0.LPCB.H_EC.SEN1, DeviceObj)
     External (_SB_.PCI0.PEG0.HPME, MethodObj)    // 0 Arguments
     External (_SB_.PCI0.PEG0.PEGP.LCD_, DeviceObj)
     External (_SB_.PCI0.PEG1.HPME, MethodObj)    // 0 Arguments
@@ -100,7 +104,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
     External (_SB_.SCAI, DeviceObj)
     External (_SB_.TPM_.PTS_, MethodObj)    // 1 Arguments
     External (ALSE, UnknownObj)
-    External (BNUM, UnknownObj)
+    External (BNUM, UnknownObj)    // Conflicts with a later declaration
+
     External (BRTL, UnknownObj)
     External (CRBI, UnknownObj)
     External (DIDX, UnknownObj)
@@ -113,9 +118,11 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
     External (M32L, UnknownObj)
     External (M64B, UnknownObj)
     External (M64L, UnknownObj)
+
+
     External (MDBG, MethodObj)    // 1 Arguments
-    External (NVGF, UnknownObj)
-    External (NVTP, UnknownObj)
+    External (NVGF, UnknownObj)    // Conflicts with a later declaration
+    External (NVTP, UnknownObj)    // Conflicts with a later declaration
     External (ODV0, IntObj)
     External (ODV1, IntObj)
     External (ODV2, IntObj)
@@ -160,7 +167,9 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
     External (SAT0.NVM3.VLPM, UnknownObj)
     External (SGGP, UnknownObj)
     External (SGMD, UnknownObj)
-    External (VGTY, UnknownObj)
+    External (VGTY, UnknownObj)    // Conflicts with a later declaration
+
+
 
     Name (PEBS, 0xF8000000)
     Name (PELN, 0x04000000)
@@ -227,7 +236,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
     Name (SS3, One)
     Name (SS4, One)
     Name (IOST, 0xFFFF)
-    Name (TOPM, Zero)
+    Name (TOPM, 0x00000000)
+
     Name (ROMS, 0xFFE00000)
     Name (VGAF, One)
     OperationRegion (GNVS, SystemMemory, 0xD4A53000, 0x077B)
@@ -1525,7 +1535,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         SSPF,   8
     }
 
-    OperationRegion (SSDB, SystemMemory, 0xD4A41838, 0x40)
+    OperationRegion (SSDB, SystemMemory, 0xD4A41838, 0x0040)
     Field (SSDB, AnyAcc, Lock, Preserve)
     {
         SMPT,   8, 
@@ -4152,6 +4162,46 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 0x12
             }
         })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     Scope (_SB)
@@ -4706,13 +4756,37 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Device (GFX0)
                 {
                     Name (_ADR, 0x00020000)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (B0D4)
                 {
+
+
                     Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
                     {
                         If (PCIC (Arg0))
+
                         {
                             Return (PCID (Arg0, Arg1, Arg2, Arg3))
                         }
@@ -4724,6 +4798,25 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     }
 
                     Name (_ADR, 0x00040000)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (ISP0)
@@ -4894,6 +4987,125 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                         ,   31, 
                     SLPX,   1, 
                     Offset (0x08)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 }
             }
 
@@ -10642,6 +10854,210 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     Return (PR13) /* \_SB_.PR13 */
                 }
             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
     }
 
@@ -10685,11 +11101,19 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             \_SB.PCI0.LPCB.SPTS (Arg0)
             \_SB.PCI0.NPTS (Arg0)
             RPTS (Arg0)
+
+
+
         }
     }
 
     Method (_WAK, 1, NotSerialized)  // _WAK: Wake
     {
+
+
+
+
+
         RWAK (Arg0)
         \_SB.PCI0.NWAK (Arg0)
         \_SB.PCI0.LPCB.SWAK (Arg0)
@@ -11061,6 +11485,23 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
             Zero
         })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     Scope (_SB)
@@ -11691,7 +12132,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
         Method (GADR, 2, NotSerialized)
         {
-            Local0 = (GINF (Arg0, Zero) + SBRG) /* \SBRG */
+            Local0 = (GINF (Arg0, Zero) + SBRG)
             Local1 = GINF (Arg0, Arg1)
             Return ((Local0 + Local1))
         }
@@ -11776,7 +12217,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         {
             Local0 = GGRP (Arg0)
             Local1 = GNMB (Arg0)
-            Local2 = ((GADR (Local0, 0x02) + (Local1 * 0x08)) + 0x04)
+            Local2 = ((GADR (Local0, 0x02) + (Local1 * 0x08)) + 
+                0x04)
             OperationRegion (PDW1, SystemMemory, Local2, 0x04)
             Field (PDW1, AnyAcc, NoLock, Preserve)
             {
@@ -11790,7 +12232,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         {
             Local0 = GGRP (Arg0)
             Local1 = GNMB (Arg0)
-            Local2 = ((GADR (Local0, 0x02) + (Local1 * 0x08)) + 0x04)
+            Local2 = ((GADR (Local0, 0x02) + (Local1 * 0x08)) + 
+                0x04)
             OperationRegion (PDW1, SystemMemory, Local2, 0x04)
             Field (PDW1, AnyAcc, NoLock, Preserve)
             {
@@ -11967,7 +12410,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         {
             Local0 = GGRP (Arg0)
             Local1 = GNMB (Arg0)
-            Local2 = (GADR (Local0, 0x04) + ((Local1 >> 0x03) * 0x04))
+            Local2 = (GADR (Local0, 0x04) + ((Local1 >> 0x03) * 0x04
+                ))
             OperationRegion (PREG, SystemMemory, Local2, 0x04)
             Field (PREG, AnyAcc, NoLock, Preserve)
             {
@@ -11998,7 +12442,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         {
             Local0 = GGRP (Arg0)
             Local1 = GNMB (Arg0)
-            Local2 = ((GADR (Local0, 0x02) + (Local1 * 0x08)) + 0x04)
+            Local2 = ((GADR (Local0, 0x02) + (Local1 * 0x08)) + 
+                0x04)
             OperationRegion (PDW0, SystemMemory, Local2, 0x04)
             Field (PDW0, AnyAcc, NoLock, Preserve)
             {
@@ -12020,6 +12465,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
         Method (CGLS, 0, Serialized)
         {
+
         }
 
         Method (CAGS, 1, Serialized)
@@ -12220,6 +12666,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             }
 
             DO30 = Zero
+
         }
 
         Method (THDH, 1, Serialized)
@@ -12252,7 +12699,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
     Scope (_GPE)
     {
-        Method (_L6D, 0, Serialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
+        Method (_L6D, 0, Serialized)  // _Lxx: Level-Triggered GPE
         {
             \_SB.PCI0.XHC.GPEH ()
             \_SB.PCI0.HDAS.GPEH ()
@@ -12439,6 +12886,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
             {
                 If (PCIC (Arg0))
+
                 {
                     Return (PCID (Arg0, Arg1, Arg2, Arg3))
                 }
@@ -12446,6 +12894,34 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Return (Buffer (One)
                 {
                      0x00                                             // .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 })
             }
         }
@@ -12453,9 +12929,18 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         Device (SBUS)
         {
             Name (_ADR, 0x001F0004)  // _ADR: Address
+
+
+
+
+
+
+
+
             Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
             {
                 If (PCIC (Arg0))
+
                 {
                     Return (PCID (Arg0, Arg1, Arg2, Arg3))
                 }
@@ -12463,6 +12948,63 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Return (Buffer (One)
                 {
                      0x00                                             // .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 })
             }
         }
@@ -12860,7 +13402,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         Method (PCRR, 2, Serialized)
         {
             Local0 = ((Arg0 << 0x10) + Arg1)
-            Local0 += SBRG /* \SBRG */
+            Local0 += SBRG
+
             OperationRegion (PCR0, SystemMemory, Local0, 0x04)
             Field (PCR0, DWordAcc, Lock, Preserve)
             {
@@ -12873,7 +13416,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         Method (PCRW, 3, Serialized)
         {
             Local0 = ((Arg0 << 0x10) + Arg1)
-            Local0 += SBRG /* \SBRG */
+            Local0 += SBRG
+
             OperationRegion (PCR0, SystemMemory, Local0, 0x04)
             Field (PCR0, DWordAcc, Lock, Preserve)
             {
@@ -13020,6 +13564,51 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     PMES = One
                     Notify (GLAN, 0x02) // Device Wake
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         }
     }
@@ -13056,7 +13645,9 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
             Name (XFLT, Zero)
             Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+
             {
+
                 ADBG ("_DSM")
                 Local0 = (XADH << 0x20)
                 Local0 |= XADL /* \_SB_.PCI0.XHC_.XADL */
@@ -13074,26 +13665,42 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 }
 
                 If (PCIC (Arg0))
+
                 {
                     Return (PCID (Arg0, Arg1, Arg2, Arg3))
+
                 }
 
                 If ((Arg0 == ToUUID ("ac340cb7-e901-45bf-b7e6-2b34ec931e23")))
+
                 {
+
                     If ((Arg1 == 0x03))
                     {
                         XFLT = Arg1
                     }
 
                     If (((PRTM > Zero) && ((Arg1 == 0x05) || (Arg1 == 0x06))))
+
                     {
                         ADBG ("SSIC")
                         If ((((PCCS == Zero) || (PTPP == Zero)) || ((
                             PPLS >= 0x04) && (PPLS <= 0x0F))))
+
+
+
+
                         {
                             If ((PPLS == 0x08))
+
                             {
                                 D3HE = One
+
+
+
+
+
+
                             }
                             Else
                             {
@@ -13124,13 +13731,16 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             }
 
             Method (_S3W, 0, NotSerialized)  // _S3W: S3 Device Wake State
+
             {
+
                 Return (0x03)
             }
 
             Method (_S4W, 0, NotSerialized)  // _S4W: S4 Device Wake State
             {
                 Return (0x03)
+
             }
 
             Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
@@ -13177,6 +13787,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     Notify (XHC, 0x02) // Device Wake
                     Notify (PWRB, 0x02) // Device Wake
                 }
+
+
             }
 
             OperationRegion (XHCP, SystemMemory, (GPCB () + 0x000A0000), 0x0100)
@@ -13253,6 +13865,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                         Sleep (0x0A)
                     }
                 }
+
+
             }
 
             Method (_PS3, 0, Serialized)  // _PS3: Power State 3
@@ -13351,6 +13965,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                         Sleep (0x0A)
                     }
                 }
+
+
             }
 
             Method (CUID, 1, Serialized)
@@ -13369,7 +13985,11 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Method (_PS0, 0, Serialized)  // _PS0: Power State 0
                 {
                     If ((DVID == 0xFFFF))
+
                     {
+
+
+
                         Return (Zero)
                     }
 
@@ -13382,7 +14002,11 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Method (_PS2, 0, Serialized)  // _PS2: Power State 2
                 {
                     If ((DVID == 0xFFFF))
+
                     {
+
+
+
                         Return (Zero)
                     }
 
@@ -13395,7 +14019,11 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Method (_PS3, 0, Serialized)  // _PS3: Power State 3
                 {
                     If ((DVID == 0xFFFF))
+
                     {
+
+
+
                         Return (Zero)
                     }
 
@@ -13408,51 +14036,151 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Device (HS01)
                 {
                     Name (_ADR, One)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (HS02)
                 {
                     Name (_ADR, 0x02)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (HS03)
                 {
                     Name (_ADR, 0x03)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (HS04)
                 {
                     Name (_ADR, 0x04)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (HS05)
                 {
                     Name (_ADR, 0x05)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (HS06)
                 {
                     Name (_ADR, 0x06)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (HS07)
                 {
                     Name (_ADR, 0x07)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (HS08)
                 {
                     Name (_ADR, 0x08)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (HS09)
                 {
                     Name (_ADR, 0x09)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (HS10)
                 {
                     Name (_ADR, 0x0A)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (USR1)
@@ -13461,6 +14189,17 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     {
                         Return ((USRA () + Zero))
                     }
+
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (USR2)
@@ -13469,6 +14208,17 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     {
                         Return ((USRA () + One))
                     }
+
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (SS01)
@@ -13477,6 +14227,17 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     {
                         Return ((SSPA () + Zero))
                     }
+
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (SS02)
@@ -13485,6 +14246,17 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     {
                         Return ((SSPA () + One))
                     }
+
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (SS03)
@@ -13493,6 +14265,17 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     {
                         Return ((SSPA () + 0x02))
                     }
+
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (SS04)
@@ -13501,6 +14284,17 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     {
                         Return ((SSPA () + 0x03))
                     }
+
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (SS05)
@@ -13509,6 +14303,17 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     {
                         Return ((SSPA () + 0x04))
                     }
+
+
+
+
+
+
+
+
+
+
+
                 }
 
                 Device (SS06)
@@ -13517,7 +14322,54 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     {
                         Return ((SSPA () + 0x05))
                     }
+
+
+
+
+
+
+
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         }
     }
@@ -13529,21 +14381,61 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Device (HS11)
             {
                 Name (_ADR, 0x0B)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
             }
 
             Device (HS12)
             {
                 Name (_ADR, 0x0C)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
             }
 
             Device (HS13)
             {
                 Name (_ADR, 0x0D)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
             }
 
             Device (HS14)
             {
                 Name (_ADR, 0x0E)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
             }
 
             Device (SS07)
@@ -13552,6 +14444,17 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 {
                     Return ((SSPA () + 0x06))
                 }
+
+
+
+
+
+
+
+
+
+
+
             }
 
             Device (SS08)
@@ -13560,6 +14463,17 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 {
                     Return ((SSPA () + 0x07))
                 }
+
+
+
+
+
+
+
+
+
+
+
             }
 
             Device (SS09)
@@ -13568,6 +14482,17 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 {
                     Return ((SSPA () + 0x08))
                 }
+
+
+
+
+
+
+
+
+
+
+
             }
 
             Device (SS10)
@@ -13575,6 +14500,17 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Method (_ADR, 0, NotSerialized)  // _ADR: Address
                 {
                     Return ((SSPA () + 0x09))
+
+
+
+
+
+
+
+
+
+
+
                 }
             }
         }
@@ -13819,6 +14755,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 {
                     Notify (XDCI, 0x02) // Device Wake
                 }
+
+
             }
         }
     }
@@ -13828,9 +14766,11 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         Device (HDAS)
         {
             Name (_ADR, 0x001F0003)  // _ADR: Address
+
             OperationRegion (HDAR, PCI_Config, Zero, 0x0100)
             Field (HDAR, WordAcc, NoLock, Preserve)
             {
+
                 VDID,   32
             }
 
@@ -13922,6 +14862,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
             Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
             {
+
                 ADBG ("HDAS _DSM")
                 If (PCIC (Arg0))
                 {
@@ -13958,14 +14899,19 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                             }
 
                             If ((Arg3 == ToUUID ("bb303551-0914-4d56-a3ff-20955c598a8f")))
+
                             {
+
+
                                 Return (One)
                             }
 
                             If ((Arg3 == ToUUID ("ec774fa9-28d3-424a-90e4-69f984f1eeb7")))
                             {
                                 Return (One)
+
                             }
+
 
                             If ((Arg3 == ToUUID ("7c708106-3aff-40fe-88be-8c999b3f7445")))
                             {
@@ -13977,16 +14923,23 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                                 Return (PPMS (Arg3))
                             }
 
+
                             Return (Zero)
                         }
                         Default
                         {
                             ADBG ("_DSM Fun NOK")
+
+
+
+
+
                             Return (Buffer (One)
                             {
                                  0x00                                             // .
                             })
                         }
+
 
                     }
                 }
@@ -13994,15 +14947,26 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 If (CondRefOf (HIWC))
                 {
                     If (HIWC (Arg0))
+
+
                     {
+
                         If (CondRefOf (HIDW))
                         {
                             Return (HIDW (Arg0, Arg1, Arg2, Arg3))
                         }
+
                     }
                 }
 
                 ADBG ("_DSM UUID NOK")
+
+
+
+
+
+
+
                 Return (Buffer (One)
                 {
                      0x00                                             // .
@@ -14010,12 +14974,24 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             }
         }
 
+
+
+
+
+
+
+
+
+
+
+
         Device (SAT0)
         {
             Name (_ADR, 0x00170000)  // _ADR: Address
             Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
             {
                 If (PCIC (Arg0))
+
                 {
                     Return (PCID (Arg0, Arg1, Arg2, Arg3))
                 }
@@ -14032,14 +15008,19 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             }
 
             Device (PRT0)
+
             {
+
+
                 Name (_ADR, 0xFFFF)  // _ADR: Address
             }
 
             Device (PRT1)
             {
                 Name (_ADR, 0x0001FFFF)  // _ADR: Address
+
             }
+
 
             Device (PRT2)
             {
@@ -14054,11 +15035,49 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Device (PRT4)
             {
                 Name (_ADR, 0x0004FFFF)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
 
             Device (PRT5)
             {
                 Name (_ADR, 0x0005FFFF)  // _ADR: Address
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
 
             Device (VOL0)
@@ -14220,6 +15239,48 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
                 }
             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
 
         Device (CIO2)
@@ -14510,6 +15571,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 }
 
                 Return ("INT344B")
+
             }
 
             Name (LINK, "\\_SB.PCI0.GPI0")
@@ -14517,6 +15579,10 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             {
                 Name (RBUF, ResourceTemplate ()
                 {
+
+
+
+
                     Memory32Fixed (ReadWrite,
                         0x00000000,         // Address Base
                         0x00010000,         // Address Length
@@ -14534,6 +15600,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                         0x0000000E,
                     }
                 })
+
                 CreateDWordField (RBUF, \_SB.PCI0.GPI0._CRS._Y20._BAS, COM0)  // _BAS: Base Address
                 CreateDWordField (RBUF, \_SB.PCI0.GPI0._CRS._Y21._BAS, COM1)  // _BAS: Base Address
                 CreateDWordField (RBUF, \_SB.PCI0.GPI0._CRS._Y22._INT, IRQN)  // _INT: Interrupts
@@ -14575,11 +15642,13 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
             {
                 LPD0 (SB10)
+
             }
 
             Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
             {
                 LPD3 (SB10)
+
             }
 
             If ((SMD0 != 0x02))
@@ -14612,10 +15681,35 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     }
 
                     Return (Buffer (One)
+
                     {
                          0x00                                             // .
+
+
+
+
+
                     })
+
+
+
+
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         }
     }
@@ -14633,11 +15727,13 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
             {
                 LPD0 (SB11)
+
             }
 
             Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
             {
                 LPD3 (SB11)
+
             }
 
             If ((SMD1 != 0x02))
@@ -14670,10 +15766,35 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     }
 
                     Return (Buffer (One)
+
                     {
                          0x00                                             // .
+
+
+
+
+
                     })
+
+
+
+
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         }
     }
@@ -14691,11 +15812,13 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
             {
                 LPD0 (SB12)
+
             }
 
             Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
             {
                 LPD3 (SB12)
+
             }
 
             If ((SMD2 != 0x02))
@@ -14728,10 +15851,35 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     }
 
                     Return (Buffer (One)
+
                     {
                          0x00                                             // .
+
+
+
+
+
                     })
+
+
+
+
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         }
     }
@@ -14749,11 +15897,13 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
             {
                 LPD0 (SB13)
+
             }
 
             Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
             {
                 LPD3 (SB13)
+
             }
 
             If ((SMD3 != 0x02))
@@ -14807,11 +15957,13 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
             {
                 LPD0 (SB14)
+
             }
 
             Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
             {
                 LPD3 (SB14)
+
             }
 
             If ((SMD4 != 0x02))
@@ -14865,11 +16017,13 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
             {
                 LPD0 (SB15)
+
             }
 
             Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
             {
                 LPD3 (SB15)
+
             }
 
             If ((SMD5 != 0x02))
@@ -14922,11 +16076,13 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
             {
                 LPD0 (SB16)
+
             }
 
             Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
             {
                 LPD3 (SB16)
+
             }
 
             If ((SMD6 != 0x02))
@@ -14979,11 +16135,13 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
             {
                 LPD0 (SB17)
+
             }
 
             Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
             {
                 LPD3 (SB17)
+
             }
 
             If ((SMD7 != 0x02))
@@ -15087,11 +16245,13 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
                 {
                     LPD0 (SB18)
+
                 }
 
                 Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
                 {
                     LPD3 (SB18)
+
                 }
             }
         }
@@ -15160,11 +16320,13 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
                 {
                     LPD0 (SB19)
+
                 }
 
                 Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
                 {
                     LPD3 (SB19)
+
                 }
             }
         }
@@ -15233,11 +16395,13 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
                 {
                     LPD0 (SB1A)
+
                 }
 
                 Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
                 {
                     LPD3 (SB1A)
+
                 }
             }
         }
@@ -15327,7 +16491,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     "\\_SB.PCI0.GPI0", 0x00, ResourceConsumer, ,
                     )
                     {   // Pin list
-                        0x001B
+                        0x0000
                     }
             })
             CreateWordField (SBFB, \_SB.PCI0.I2C0.TPD0._Y24._ADR, BADR)  // _ADR: Address
@@ -15435,7 +16599,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
                 If ((SDM0 == Zero))
                 {
-                    Return (ConcatenateResTemplate (SBFB, SBFI))
+                    Return (ConcatenateResTemplate (SBFB, SBFG))
                 }
 
                 Return (ConcatenateResTemplate (SBFB, SBFI))
@@ -15837,6 +17001,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             {
                 SHPO (GFPI, One)
                 SHPO (GFPS, One)
+
             }
 
             Method (_STA, 0, NotSerialized)  // _STA: Status
@@ -16006,6 +17171,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 SHPO (GBTI, One)
                 SHPO (GBTW, One)
                 SHPO (GBTK, One)
+
             }
 
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
@@ -16541,7 +17707,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 }
 
                 DATA = Arg2
-                DATA = (END + READ) /* \_SB_.PCI0.GEXP.READ */
+                DATA = (END + READ)
+
                 While ((ACTV != Zero))
                 {
                     If ((Timer > Local1))
@@ -16708,7 +17875,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Else
                 {
                     NEWV = (OLDV & ~(One << PINN))
-                    NEWV |= (Arg3 << PINN)
+                    NEWV |= (Arg3 << PINN) /* \_SB_.PCI0.GEXP.CSER.NEWV */
+
                     If ((NEWV != OLDV))
                     {
                         WREG (SB0X, Arg1, REGA, NEWV)
@@ -16760,6 +17928,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
             {
                 If (PCIC (Arg0))
+
                 {
                     Return (PCID (Arg0, Arg1, Arg2, Arg3))
                 }
@@ -16767,6 +17936,30 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Return (Buffer (One)
                 {
                      0x00                                             // .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 })
             }
         }
@@ -17417,6 +18610,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         PPL1 = Local1
         PL1E = One
         CLP1 = One
+
     }
 
     Method (RPL1, 0, Serialized)
@@ -17431,6 +18625,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
     Name (GLCK, Zero)
     Method (GUAM, 1, Serialized)
     {
+
     }
 
     Scope (\)
@@ -17537,7 +18732,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     OSYS = 0x07E0
                 }
 
-                If ((_OSI ("Darwin") || _OSI ("Windows 2017")))
+                If (_OSI ("Windows 2017"))
                 {
                     OSYS = 0x07E1
                 }
@@ -17552,6 +18747,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             }
 
             GOST ()
+
         }
 
         Method (NHPG, 0, Serialized)
@@ -17859,6 +19055,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             }
 
             Return (Local7)
+
         }
     }
 
@@ -18145,7 +19342,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
     Scope (_GPE)
     {
-        Method (_L69, 0, Serialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
+        Method (_L69, 0, Serialized)  // _Lxx: Level-Triggered GPE
         {
             \_SB.PCI0.RP01.HPME ()
             \_SB.PCI0.RP02.HPME ()
@@ -18191,7 +19388,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             }
         }
 
-        Method (_L61, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
+        Method (_L61, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
         {
             L01C += One
             P8XH (Zero, One)
@@ -18685,12 +19882,12 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             }
         }
 
-        Method (_L62, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
+        Method (_L62, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
         {
             GPEC = Zero
             If ((IGDS && ((0x04 & DSEN) == Zero)))
             {
-                \_SB.PCI0.LPCB.EC.BRIT = BRTV /* \BRTV */
+                \_SB.PCI0.LPCB.H_EC.BRIT = BRTV /* \BRTV */
                 BRTL = BRTV /* \BRTV */
             }
             Else
@@ -18741,7 +19938,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             }
         }
 
-        Method (_L66, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
+        Method (_L66, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
         {
             If ((\_SB.PCI0.GFX0.GSSE && !GSMI))
             {
@@ -18750,21 +19947,22 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         }
 
         Name (PRES, One)
-        Method (_L10, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
+        Method (_L10, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
         {
             If ((ECON == Zero))
             {
                 Return (Zero)
             }
 
-            If ((\_SB.PCI0.LPCB.EC.LSTE != LIDS))
+            If ((\_SB.PCI0.LPCB.H_EC.LSTE != LIDS))
             {
-                LIDS = \_SB.PCI0.LPCB.EC.LSTE
+                LIDS = \_SB.PCI0.LPCB.H_EC.LSTE
                 If (IGDS)
                 {
                     If (\_SB.PCI0.GFX0.GLID (LIDS))
                     {
-                        \_SB.PCI0.GFX0.CLID |= 0x80000000
+                        \_SB.PCI0.GFX0.CLID |= 0x80000000 /* External reference */
+
                     }
                 }
 
@@ -19981,6 +21179,811 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         }
     }
 
+    Scope (_SB.PCI0.RP04.PXSX)
+    {
+        OperationRegion (RPXX, PCI_Config, Zero, 0x50)
+        Field (RPXX, WordAcc, NoLock, Preserve)
+        {
+            VDID,   32, 
+            Offset (0x44), 
+            DCAP,   32, 
+            DCTR,   16
+        }
+
+        Method (WIST, 0, Serialized)
+        {
+            If (VDID)
+            {
+                Switch (ToInteger (VDID))
+                {
+                    Case (0x095A8086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x095B8086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x31658086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x31668086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x08B18086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x08B28086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x08B38086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x08B48086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x24F38086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x24F48086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x24F58086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x24F68086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x24FD8086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x24FB8086)
+                    {
+                        Return (One)
+                    }
+                    Default
+                    {
+                        Return (Zero)
+                    }
+
+                }
+            }
+            Else
+            {
+                Return (Zero)
+            }
+        }
+
+        Method (WGST, 0, Serialized)
+        {
+            If (VDID)
+            {
+                Switch (ToInteger (VDID))
+                {
+                    Case (0x093C8086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x097C8086)
+                    {
+                        Return (One)
+                    }
+                    Default
+                    {
+                        Return (Zero)
+                    }
+
+                }
+            }
+            Else
+            {
+                Return (Zero)
+            }
+        }
+
+        If ((WIST () || WGST ()))
+        {
+            Name (SPLX, Package (0x04)
+            {
+                Zero, 
+                Package (0x03)
+                {
+                    0x80000000, 
+                    0x80000000, 
+                    0x80000000
+                }, 
+
+                Package (0x03)
+                {
+                    0x80000000, 
+                    0x80000000, 
+                    0x80000000
+                }, 
+
+                Package (0x03)
+                {
+                    0x80000000, 
+                    0x80000000, 
+                    0x80000000
+                }
+            })
+            Method (SPLC, 0, Serialized)
+            {
+                DerefOf (SPLX [One]) [Zero] = DOM1 /* \DOM1 */
+                DerefOf (SPLX [One]) [One] = LIM1 /* \LIM1 */
+                DerefOf (SPLX [One]) [0x02] = TIM1 /* \TIM1 */
+                DerefOf (SPLX [0x02]) [Zero] = DOM2 /* \DOM2 */
+                DerefOf (SPLX [0x02]) [One] = LIM2 /* \LIM2 */
+                DerefOf (SPLX [0x02]) [0x02] = TIM2 /* \TIM2 */
+                DerefOf (SPLX [0x03]) [Zero] = DOM3 /* \DOM3 */
+                DerefOf (SPLX [0x03]) [One] = LIM3 /* \LIM3 */
+                DerefOf (SPLX [0x03]) [0x02] = TIM3 /* \TIM3 */
+                Return (SPLX) /* \_SB_.PCI0.RP04.PXSX.SPLX */
+            }
+
+            PowerResource (WRST, 0x05, 0x0000)
+            {
+                Method (_STA, 0, NotSerialized)  // _STA: Status
+                {
+                    ADBG ("PXSX _STA")
+                    Return (One)
+                }
+
+                Method (_ON, 0, NotSerialized)  // _ON_: Power On
+                {
+                    ADBG ("PXSX _ON")
+                }
+
+                Method (_OFF, 0, NotSerialized)  // _OFF: Power Off
+                {
+                    ADBG ("PXSX _OFF")
+                }
+
+                Method (_RST, 0, NotSerialized)  // _RST: Device Reset
+                {
+                    ADBG ("PXSX _RST")
+                    If ((DCAP & 0x10000000))
+                    {
+                        Local0 = DCTR /* \_SB_.PCI0.RP04.PXSX.DCTR */
+                        Local0 |= 0x8000
+                        DCTR = Local0
+                    }
+                }
+            }
+
+            Name (_PRR, Package (0x01)  // _PRR: Power Resource for Reset
+            {
+                WRST
+            })
+            Name (WANX, Package (0x03)
+            {
+                Zero, 
+                Package (0x03)
+                {
+                    0x80000000, 
+                    0x80000000, 
+                    0x80000000
+                }, 
+
+                Package (0x03)
+                {
+                    0x80000000, 
+                    0x80000000, 
+                    0x80000000
+                }
+            })
+            Method (WAND, 0, Serialized)
+            {
+                DerefOf (WANX [One]) [Zero] = Zero
+                DerefOf (WANX [One]) [One] = TRD0 /* \TRD0 */
+                DerefOf (WANX [One]) [0x02] = TRL0 /* \TRL0 */
+                DerefOf (WANX [0x02]) [Zero] = One
+                DerefOf (WANX [0x02]) [One] = TRD1 /* \TRD1 */
+                DerefOf (WANX [0x02]) [0x02] = TRL1 /* \TRL1 */
+                Return (WANX) /* \_SB_.PCI0.RP04.PXSX.WANX */
+            }
+
+            Name (WRDX, Package (0x03)
+            {
+                Zero, 
+                Package (0x02)
+                {
+                    0x80000000, 
+                    0x8000
+                }, 
+
+                Package (0x02)
+                {
+                    0x80000000, 
+                    0x8000
+                }
+            })
+            Method (WRDD, 0, Serialized)
+            {
+                DerefOf (WRDX [One]) [Zero] = WDM1 /* \WDM1 */
+                DerefOf (WRDX [One]) [One] = CID1 /* \CID1 */
+                DerefOf (WRDX [0x02]) [Zero] = WDM2 /* \WDM2 */
+                DerefOf (WRDX [0x02]) [One] = CID2 /* \CID2 */
+                Return (WRDX) /* \_SB_.PCI0.RP04.PXSX.WRDX */
+            }
+
+            Name (WRDY, Package (0x03)
+            {
+                Zero, 
+                Package (0x0C)
+                {
+                    0x07, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80
+                }, 
+
+                Package (0x06)
+                {
+                    0x10, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80
+                }
+            })
+            Method (WRDS, 0, Serialized)
+            {
+                DerefOf (WRDY [One]) [One] = STXE /* \STXE */
+                DerefOf (WRDY [One]) [0x02] = STX0 /* \STX0 */
+                DerefOf (WRDY [One]) [0x03] = STX1 /* \STX1 */
+                DerefOf (WRDY [One]) [0x04] = STX2 /* \STX2 */
+                DerefOf (WRDY [One]) [0x05] = STX3 /* \STX3 */
+                DerefOf (WRDY [One]) [0x06] = STX4 /* \STX4 */
+                DerefOf (WRDY [One]) [0x07] = STX5 /* \STX5 */
+                DerefOf (WRDY [One]) [0x08] = STX6 /* \STX6 */
+                DerefOf (WRDY [One]) [0x09] = STX7 /* \STX7 */
+                DerefOf (WRDY [One]) [0x0A] = STX8 /* \STX8 */
+                DerefOf (WRDY [One]) [0x0B] = STX9 /* \STX9 */
+                DerefOf (WRDY [0x02]) [One] = WRFE /* \WRFE */
+                DerefOf (WRDY [0x02]) [0x02] = WRC1 /* \WRC1 */
+                DerefOf (WRDY [0x02]) [0x03] = WRC2 /* \WRC2 */
+                DerefOf (WRDY [0x02]) [0x04] = WRC3 /* \WRC3 */
+                DerefOf (WRDY [0x02]) [0x05] = WRC4 /* \WRC4 */
+                Return (WRDY) /* \_SB_.PCI0.RP04.PXSX.WRDY */
+            }
+
+            Method (AWVC, 0, Serialized)
+            {
+                Return (AWVI) /* \AWVI */
+            }
+
+            Method (WOWG, 0, Serialized)
+            {
+                Return (WGWS) /* \WGWS */
+            }
+
+            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+            {
+                If (PCIC (Arg0))
+                {
+                    Return (PCID (Arg0, Arg1, Arg2, Arg3))
+                }
+
+                If ((Arg0 == ToUUID ("1730e71d-e5dd-4a34-be57-4d76b6a2fe37")))
+                {
+                    If ((Arg2 == Zero))
+                    {
+                        If ((Arg1 == Zero))
+                        {
+                            Return (Buffer (One)
+                            {
+                                 0x03                                             // .
+                            })
+                        }
+                        Else
+                        {
+                            Return (Buffer (One)
+                            {
+                                 0x00                                             // .
+                            })
+                        }
+                    }
+
+                    If ((Arg2 == One))
+                    {
+                        Switch (ToInteger (DerefOf (Arg3 [Zero])))
+                        {
+                            Case (Zero)
+                            {
+                            }
+                            Case (One)
+                            {
+                            }
+                            Case (0x02)
+                            {
+                            }
+                            Case (0x03)
+                            {
+                            }
+                            Case (0x04)
+                            {
+                            }
+
+                        }
+                    }
+
+                    Return (Zero)
+                }
+                ElseIf ((Arg0 == ToUUID ("7574eb17-d1a2-4cc2-9929-4a08fcc29107")))
+                {
+                    Switch (ToInteger (Arg2))
+                    {
+                        Case (Zero)
+                        {
+                            If ((Arg1 == Zero))
+                            {
+                                Return (Buffer (One)
+                                {
+                                     0x07                                             // .
+                                })
+                            }
+                            Else
+                            {
+                                Return (Buffer (One)
+                                {
+                                     0x00                                             // .
+                                })
+                            }
+                        }
+                        Case (One)
+                        {
+                            Return (WHIT ())
+                        }
+                        Case (0x02)
+                        {
+                            Return (SELF ())
+                        }
+                        Default
+                        {
+                            Return (Buffer (One)
+                            {
+                                 0x00                                             // .
+                            })
+                        }
+
+                    }
+                }
+                Else
+                {
+                    Return (Buffer (One)
+                    {
+                         0x00                                             // .
+                    })
+                }
+            }
+        }
+    }
+
+    If (CondRefOf (\_SB.PCI0.RP05.PXSX))
+    {
+        Scope (_SB.PCI0.RP05.PXSX)
+        {
+            OperationRegion (RPXX, PCI_Config, Zero, 0x50)
+            Field (RPXX, WordAcc, NoLock, Preserve)
+            {
+                VDID,   32, 
+                Offset (0x44), 
+                DCAP,   32, 
+                DCTR,   16
+            }
+
+            Method (WIST, 0, Serialized)
+            {
+                If (VDID)
+                {
+                    Switch (ToInteger (VDID))
+                    {
+                        Case (0x095A8086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x095B8086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x31658086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x31668086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x08B18086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x08B28086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x08B38086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x08B48086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x24F38086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x24F48086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x24F58086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x24F68086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x24FD8086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x24FB8086)
+                        {
+                            Return (One)
+                        }
+                        Default
+                        {
+                            Return (Zero)
+                        }
+
+                    }
+                }
+                Else
+                {
+                    Return (Zero)
+                }
+            }
+
+            Method (WGST, 0, Serialized)
+            {
+                If (VDID)
+                {
+                    Switch (ToInteger (VDID))
+                    {
+                        Case (0x093C8086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x097C8086)
+                        {
+                            Return (One)
+                        }
+                        Default
+                        {
+                            Return (Zero)
+                        }
+
+                    }
+                }
+                Else
+                {
+                    Return (Zero)
+                }
+            }
+
+            If ((WIST () || WGST ()))
+            {
+                Name (SPLX, Package (0x04)
+                {
+                    Zero, 
+                    Package (0x03)
+                    {
+                        0x80000000, 
+                        0x80000000, 
+                        0x80000000
+                    }, 
+
+                    Package (0x03)
+                    {
+                        0x80000000, 
+                        0x80000000, 
+                        0x80000000
+                    }, 
+
+                    Package (0x03)
+                    {
+                        0x80000000, 
+                        0x80000000, 
+                        0x80000000
+                    }
+                })
+                Method (SPLC, 0, Serialized)
+                {
+                    DerefOf (SPLX [One]) [Zero] = DOM1 /* \DOM1 */
+                    DerefOf (SPLX [One]) [One] = LIM1 /* \LIM1 */
+                    DerefOf (SPLX [One]) [0x02] = TIM1 /* \TIM1 */
+                    DerefOf (SPLX [0x02]) [Zero] = DOM2 /* \DOM2 */
+                    DerefOf (SPLX [0x02]) [One] = LIM2 /* \LIM2 */
+                    DerefOf (SPLX [0x02]) [0x02] = TIM2 /* \TIM2 */
+                    DerefOf (SPLX [0x03]) [Zero] = DOM3 /* \DOM3 */
+                    DerefOf (SPLX [0x03]) [One] = LIM3 /* \LIM3 */
+                    DerefOf (SPLX [0x03]) [0x02] = TIM3 /* \TIM3 */
+                    Return (SPLX) /* \_SB_.PCI0.RP05.PXSX.SPLX */
+                }
+
+                PowerResource (WRST, 0x05, 0x0000)
+                {
+                    Method (_STA, 0, NotSerialized)  // _STA: Status
+                    {
+                        ADBG ("PXSX _STA")
+                        Return (One)
+                    }
+
+                    Method (_ON, 0, NotSerialized)  // _ON_: Power On
+                    {
+                        ADBG ("PXSX _ON")
+                    }
+
+                    Method (_OFF, 0, NotSerialized)  // _OFF: Power Off
+                    {
+                        ADBG ("PXSX _OFF")
+                    }
+
+                    Method (_RST, 0, NotSerialized)  // _RST: Device Reset
+                    {
+                        ADBG ("PXSX _RST")
+                        If ((DCAP & 0x10000000))
+                        {
+                            Local0 = DCTR /* \_SB_.PCI0.RP05.PXSX.DCTR */
+                            Local0 |= 0x8000
+                            DCTR = Local0
+                        }
+                    }
+                }
+
+                Name (_PRR, Package (0x01)  // _PRR: Power Resource for Reset
+                {
+                    WRST
+                })
+                Name (WANX, Package (0x03)
+                {
+                    Zero, 
+                    Package (0x03)
+                    {
+                        0x80000000, 
+                        0x80000000, 
+                        0x80000000
+                    }, 
+
+                    Package (0x03)
+                    {
+                        0x80000000, 
+                        0x80000000, 
+                        0x80000000
+                    }
+                })
+                Method (WAND, 0, Serialized)
+                {
+                    DerefOf (WANX [One]) [Zero] = Zero
+                    DerefOf (WANX [One]) [One] = TRD0 /* \TRD0 */
+                    DerefOf (WANX [One]) [0x02] = TRL0 /* \TRL0 */
+                    DerefOf (WANX [0x02]) [Zero] = One
+                    DerefOf (WANX [0x02]) [One] = TRD1 /* \TRD1 */
+                    DerefOf (WANX [0x02]) [0x02] = TRL1 /* \TRL1 */
+                    Return (WANX) /* \_SB_.PCI0.RP05.PXSX.WANX */
+                }
+
+                Name (WRDX, Package (0x03)
+                {
+                    Zero, 
+                    Package (0x02)
+                    {
+                        0x80000000, 
+                        0x8000
+                    }, 
+
+                    Package (0x02)
+                    {
+                        0x80000000, 
+                        0x8000
+                    }
+                })
+                Method (WRDD, 0, Serialized)
+                {
+                    DerefOf (WRDX [One]) [Zero] = WDM1 /* \WDM1 */
+                    DerefOf (WRDX [One]) [One] = CID1 /* \CID1 */
+                    DerefOf (WRDX [0x02]) [Zero] = WDM2 /* \WDM2 */
+                    DerefOf (WRDX [0x02]) [One] = CID2 /* \CID2 */
+                    Return (WRDX) /* \_SB_.PCI0.RP05.PXSX.WRDX */
+                }
+
+                Name (WRDY, Package (0x03)
+                {
+                    Zero, 
+                    Package (0x0C)
+                    {
+                        0x07, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80
+                    }, 
+
+                    Package (0x06)
+                    {
+                        0x10, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80
+                    }
+                })
+                Method (WRDS, 0, Serialized)
+                {
+                    DerefOf (WRDY [One]) [One] = STXE /* \STXE */
+                    DerefOf (WRDY [One]) [0x02] = STX0 /* \STX0 */
+                    DerefOf (WRDY [One]) [0x03] = STX1 /* \STX1 */
+                    DerefOf (WRDY [One]) [0x04] = STX2 /* \STX2 */
+                    DerefOf (WRDY [One]) [0x05] = STX3 /* \STX3 */
+                    DerefOf (WRDY [One]) [0x06] = STX4 /* \STX4 */
+                    DerefOf (WRDY [One]) [0x07] = STX5 /* \STX5 */
+                    DerefOf (WRDY [One]) [0x08] = STX6 /* \STX6 */
+                    DerefOf (WRDY [One]) [0x09] = STX7 /* \STX7 */
+                    DerefOf (WRDY [One]) [0x0A] = STX8 /* \STX8 */
+                    DerefOf (WRDY [One]) [0x0B] = STX9 /* \STX9 */
+                    DerefOf (WRDY [0x02]) [One] = WRFE /* \WRFE */
+                    DerefOf (WRDY [0x02]) [0x02] = WRC1 /* \WRC1 */
+                    DerefOf (WRDY [0x02]) [0x03] = WRC2 /* \WRC2 */
+                    DerefOf (WRDY [0x02]) [0x04] = WRC3 /* \WRC3 */
+                    DerefOf (WRDY [0x02]) [0x05] = WRC4 /* \WRC4 */
+                    Return (WRDY) /* \_SB_.PCI0.RP05.PXSX.WRDY */
+                }
+
+                Method (AWVC, 0, Serialized)
+                {
+                    Return (AWVI) /* \AWVI */
+                }
+
+                Method (WOWG, 0, Serialized)
+                {
+                    Return (WGWS) /* \WGWS */
+                }
+
+                Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+                {
+                    If (PCIC (Arg0))
+                    {
+                        Return (PCID (Arg0, Arg1, Arg2, Arg3))
+                    }
+
+                    If ((Arg0 == ToUUID ("1730e71d-e5dd-4a34-be57-4d76b6a2fe37")))
+                    {
+                        If ((Arg2 == Zero))
+                        {
+                            If ((Arg1 == Zero))
+                            {
+                                Return (Buffer (One)
+                                {
+                                     0x03                                             // .
+                                })
+                            }
+                            Else
+                            {
+                                Return (Buffer (One)
+                                {
+                                     0x00                                             // .
+                                })
+                            }
+                        }
+
+                        If ((Arg2 == One))
+                        {
+                            Switch (ToInteger (DerefOf (Arg3 [Zero])))
+                            {
+                                Case (Zero)
+                                {
+                                }
+                                Case (One)
+                                {
+                                }
+                                Case (0x02)
+                                {
+                                }
+                                Case (0x03)
+                                {
+                                }
+                                Case (0x04)
+                                {
+                                }
+
+                            }
+                        }
+
+                        Return (Zero)
+                    }
+                    ElseIf ((Arg0 == ToUUID ("7574eb17-d1a2-4cc2-9929-4a08fcc29107")))
+                    {
+                        Switch (ToInteger (Arg2))
+                        {
+                            Case (Zero)
+                            {
+                                If ((Arg1 == Zero))
+                                {
+                                    Return (Buffer (One)
+                                    {
+                                         0x07                                             // .
+                                    })
+                                }
+                                Else
+                                {
+                                    Return (Buffer (One)
+                                    {
+                                         0x00                                             // .
+                                    })
+                                }
+                            }
+                            Case (One)
+                            {
+                                Return (WHIT ())
+                            }
+                            Case (0x02)
+                            {
+                                Return (SELF ())
+                            }
+                            Default
+                            {
+                                Return (Buffer (One)
+                                {
+                                     0x00                                             // .
+                                })
+                            }
+
+                        }
+                    }
+                    Else
+                    {
+                        Return (Buffer (One)
+                        {
+                             0x00                                             // .
+                        })
+                    }
+                }
+            }
+        }
+    }
+
     Scope (_SB.PCI0.RP06.PXSX)
     {
         OperationRegion (RPXX, PCI_Config, Zero, 0x50)
@@ -20778,6 +22781,811 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     {
                          0x00                                             // .
                     })
+                }
+            }
+        }
+    }
+
+    Scope (_SB.PCI0.RP08.PXSX)
+    {
+        OperationRegion (RPXX, PCI_Config, Zero, 0x50)
+        Field (RPXX, WordAcc, NoLock, Preserve)
+        {
+            VDID,   32, 
+            Offset (0x44), 
+            DCAP,   32, 
+            DCTR,   16
+        }
+
+        Method (WIST, 0, Serialized)
+        {
+            If (VDID)
+            {
+                Switch (ToInteger (VDID))
+                {
+                    Case (0x095A8086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x095B8086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x31658086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x31668086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x08B18086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x08B28086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x08B38086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x08B48086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x24F38086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x24F48086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x24F58086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x24F68086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x24FD8086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x24FB8086)
+                    {
+                        Return (One)
+                    }
+                    Default
+                    {
+                        Return (Zero)
+                    }
+
+                }
+            }
+            Else
+            {
+                Return (Zero)
+            }
+        }
+
+        Method (WGST, 0, Serialized)
+        {
+            If (VDID)
+            {
+                Switch (ToInteger (VDID))
+                {
+                    Case (0x093C8086)
+                    {
+                        Return (One)
+                    }
+                    Case (0x097C8086)
+                    {
+                        Return (One)
+                    }
+                    Default
+                    {
+                        Return (Zero)
+                    }
+
+                }
+            }
+            Else
+            {
+                Return (Zero)
+            }
+        }
+
+        If ((WIST () || WGST ()))
+        {
+            Name (SPLX, Package (0x04)
+            {
+                Zero, 
+                Package (0x03)
+                {
+                    0x80000000, 
+                    0x80000000, 
+                    0x80000000
+                }, 
+
+                Package (0x03)
+                {
+                    0x80000000, 
+                    0x80000000, 
+                    0x80000000
+                }, 
+
+                Package (0x03)
+                {
+                    0x80000000, 
+                    0x80000000, 
+                    0x80000000
+                }
+            })
+            Method (SPLC, 0, Serialized)
+            {
+                DerefOf (SPLX [One]) [Zero] = DOM1 /* \DOM1 */
+                DerefOf (SPLX [One]) [One] = LIM1 /* \LIM1 */
+                DerefOf (SPLX [One]) [0x02] = TIM1 /* \TIM1 */
+                DerefOf (SPLX [0x02]) [Zero] = DOM2 /* \DOM2 */
+                DerefOf (SPLX [0x02]) [One] = LIM2 /* \LIM2 */
+                DerefOf (SPLX [0x02]) [0x02] = TIM2 /* \TIM2 */
+                DerefOf (SPLX [0x03]) [Zero] = DOM3 /* \DOM3 */
+                DerefOf (SPLX [0x03]) [One] = LIM3 /* \LIM3 */
+                DerefOf (SPLX [0x03]) [0x02] = TIM3 /* \TIM3 */
+                Return (SPLX) /* \_SB_.PCI0.RP08.PXSX.SPLX */
+            }
+
+            PowerResource (WRST, 0x05, 0x0000)
+            {
+                Method (_STA, 0, NotSerialized)  // _STA: Status
+                {
+                    ADBG ("PXSX _STA")
+                    Return (One)
+                }
+
+                Method (_ON, 0, NotSerialized)  // _ON_: Power On
+                {
+                    ADBG ("PXSX _ON")
+                }
+
+                Method (_OFF, 0, NotSerialized)  // _OFF: Power Off
+                {
+                    ADBG ("PXSX _OFF")
+                }
+
+                Method (_RST, 0, NotSerialized)  // _RST: Device Reset
+                {
+                    ADBG ("PXSX _RST")
+                    If ((DCAP & 0x10000000))
+                    {
+                        Local0 = DCTR /* \_SB_.PCI0.RP08.PXSX.DCTR */
+                        Local0 |= 0x8000
+                        DCTR = Local0
+                    }
+                }
+            }
+
+            Name (_PRR, Package (0x01)  // _PRR: Power Resource for Reset
+            {
+                WRST
+            })
+            Name (WANX, Package (0x03)
+            {
+                Zero, 
+                Package (0x03)
+                {
+                    0x80000000, 
+                    0x80000000, 
+                    0x80000000
+                }, 
+
+                Package (0x03)
+                {
+                    0x80000000, 
+                    0x80000000, 
+                    0x80000000
+                }
+            })
+            Method (WAND, 0, Serialized)
+            {
+                DerefOf (WANX [One]) [Zero] = Zero
+                DerefOf (WANX [One]) [One] = TRD0 /* \TRD0 */
+                DerefOf (WANX [One]) [0x02] = TRL0 /* \TRL0 */
+                DerefOf (WANX [0x02]) [Zero] = One
+                DerefOf (WANX [0x02]) [One] = TRD1 /* \TRD1 */
+                DerefOf (WANX [0x02]) [0x02] = TRL1 /* \TRL1 */
+                Return (WANX) /* \_SB_.PCI0.RP08.PXSX.WANX */
+            }
+
+            Name (WRDX, Package (0x03)
+            {
+                Zero, 
+                Package (0x02)
+                {
+                    0x80000000, 
+                    0x8000
+                }, 
+
+                Package (0x02)
+                {
+                    0x80000000, 
+                    0x8000
+                }
+            })
+            Method (WRDD, 0, Serialized)
+            {
+                DerefOf (WRDX [One]) [Zero] = WDM1 /* \WDM1 */
+                DerefOf (WRDX [One]) [One] = CID1 /* \CID1 */
+                DerefOf (WRDX [0x02]) [Zero] = WDM2 /* \WDM2 */
+                DerefOf (WRDX [0x02]) [One] = CID2 /* \CID2 */
+                Return (WRDX) /* \_SB_.PCI0.RP08.PXSX.WRDX */
+            }
+
+            Name (WRDY, Package (0x03)
+            {
+                Zero, 
+                Package (0x0C)
+                {
+                    0x07, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80
+                }, 
+
+                Package (0x06)
+                {
+                    0x10, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80, 
+                    0x80
+                }
+            })
+            Method (WRDS, 0, Serialized)
+            {
+                DerefOf (WRDY [One]) [One] = STXE /* \STXE */
+                DerefOf (WRDY [One]) [0x02] = STX0 /* \STX0 */
+                DerefOf (WRDY [One]) [0x03] = STX1 /* \STX1 */
+                DerefOf (WRDY [One]) [0x04] = STX2 /* \STX2 */
+                DerefOf (WRDY [One]) [0x05] = STX3 /* \STX3 */
+                DerefOf (WRDY [One]) [0x06] = STX4 /* \STX4 */
+                DerefOf (WRDY [One]) [0x07] = STX5 /* \STX5 */
+                DerefOf (WRDY [One]) [0x08] = STX6 /* \STX6 */
+                DerefOf (WRDY [One]) [0x09] = STX7 /* \STX7 */
+                DerefOf (WRDY [One]) [0x0A] = STX8 /* \STX8 */
+                DerefOf (WRDY [One]) [0x0B] = STX9 /* \STX9 */
+                DerefOf (WRDY [0x02]) [One] = WRFE /* \WRFE */
+                DerefOf (WRDY [0x02]) [0x02] = WRC1 /* \WRC1 */
+                DerefOf (WRDY [0x02]) [0x03] = WRC2 /* \WRC2 */
+                DerefOf (WRDY [0x02]) [0x04] = WRC3 /* \WRC3 */
+                DerefOf (WRDY [0x02]) [0x05] = WRC4 /* \WRC4 */
+                Return (WRDY) /* \_SB_.PCI0.RP08.PXSX.WRDY */
+            }
+
+            Method (AWVC, 0, Serialized)
+            {
+                Return (AWVI) /* \AWVI */
+            }
+
+            Method (WOWG, 0, Serialized)
+            {
+                Return (WGWS) /* \WGWS */
+            }
+
+            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+            {
+                If (PCIC (Arg0))
+                {
+                    Return (PCID (Arg0, Arg1, Arg2, Arg3))
+                }
+
+                If ((Arg0 == ToUUID ("1730e71d-e5dd-4a34-be57-4d76b6a2fe37")))
+                {
+                    If ((Arg2 == Zero))
+                    {
+                        If ((Arg1 == Zero))
+                        {
+                            Return (Buffer (One)
+                            {
+                                 0x03                                             // .
+                            })
+                        }
+                        Else
+                        {
+                            Return (Buffer (One)
+                            {
+                                 0x00                                             // .
+                            })
+                        }
+                    }
+
+                    If ((Arg2 == One))
+                    {
+                        Switch (ToInteger (DerefOf (Arg3 [Zero])))
+                        {
+                            Case (Zero)
+                            {
+                            }
+                            Case (One)
+                            {
+                            }
+                            Case (0x02)
+                            {
+                            }
+                            Case (0x03)
+                            {
+                            }
+                            Case (0x04)
+                            {
+                            }
+
+                        }
+                    }
+
+                    Return (Zero)
+                }
+                ElseIf ((Arg0 == ToUUID ("7574eb17-d1a2-4cc2-9929-4a08fcc29107")))
+                {
+                    Switch (ToInteger (Arg2))
+                    {
+                        Case (Zero)
+                        {
+                            If ((Arg1 == Zero))
+                            {
+                                Return (Buffer (One)
+                                {
+                                     0x07                                             // .
+                                })
+                            }
+                            Else
+                            {
+                                Return (Buffer (One)
+                                {
+                                     0x00                                             // .
+                                })
+                            }
+                        }
+                        Case (One)
+                        {
+                            Return (WHIT ())
+                        }
+                        Case (0x02)
+                        {
+                            Return (SELF ())
+                        }
+                        Default
+                        {
+                            Return (Buffer (One)
+                            {
+                                 0x00                                             // .
+                            })
+                        }
+
+                    }
+                }
+                Else
+                {
+                    Return (Buffer (One)
+                    {
+                         0x00                                             // .
+                    })
+                }
+            }
+        }
+    }
+
+    If (CondRefOf (\_SB.PCI0.RP09.PXSX))
+    {
+        Scope (_SB.PCI0.RP09.PXSX)
+        {
+            OperationRegion (RPXX, PCI_Config, Zero, 0x50)
+            Field (RPXX, WordAcc, NoLock, Preserve)
+            {
+                VDID,   32, 
+                Offset (0x44), 
+                DCAP,   32, 
+                DCTR,   16
+            }
+
+            Method (WIST, 0, Serialized)
+            {
+                If (VDID)
+                {
+                    Switch (ToInteger (VDID))
+                    {
+                        Case (0x095A8086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x095B8086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x31658086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x31668086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x08B18086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x08B28086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x08B38086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x08B48086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x24F38086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x24F48086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x24F58086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x24F68086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x24FD8086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x24FB8086)
+                        {
+                            Return (One)
+                        }
+                        Default
+                        {
+                            Return (Zero)
+                        }
+
+                    }
+                }
+                Else
+                {
+                    Return (Zero)
+                }
+            }
+
+            Method (WGST, 0, Serialized)
+            {
+                If (VDID)
+                {
+                    Switch (ToInteger (VDID))
+                    {
+                        Case (0x093C8086)
+                        {
+                            Return (One)
+                        }
+                        Case (0x097C8086)
+                        {
+                            Return (One)
+                        }
+                        Default
+                        {
+                            Return (Zero)
+                        }
+
+                    }
+                }
+                Else
+                {
+                    Return (Zero)
+                }
+            }
+
+            If ((WIST () || WGST ()))
+            {
+                Name (SPLX, Package (0x04)
+                {
+                    Zero, 
+                    Package (0x03)
+                    {
+                        0x80000000, 
+                        0x80000000, 
+                        0x80000000
+                    }, 
+
+                    Package (0x03)
+                    {
+                        0x80000000, 
+                        0x80000000, 
+                        0x80000000
+                    }, 
+
+                    Package (0x03)
+                    {
+                        0x80000000, 
+                        0x80000000, 
+                        0x80000000
+                    }
+                })
+                Method (SPLC, 0, Serialized)
+                {
+                    DerefOf (SPLX [One]) [Zero] = DOM1 /* \DOM1 */
+                    DerefOf (SPLX [One]) [One] = LIM1 /* \LIM1 */
+                    DerefOf (SPLX [One]) [0x02] = TIM1 /* \TIM1 */
+                    DerefOf (SPLX [0x02]) [Zero] = DOM2 /* \DOM2 */
+                    DerefOf (SPLX [0x02]) [One] = LIM2 /* \LIM2 */
+                    DerefOf (SPLX [0x02]) [0x02] = TIM2 /* \TIM2 */
+                    DerefOf (SPLX [0x03]) [Zero] = DOM3 /* \DOM3 */
+                    DerefOf (SPLX [0x03]) [One] = LIM3 /* \LIM3 */
+                    DerefOf (SPLX [0x03]) [0x02] = TIM3 /* \TIM3 */
+                    Return (SPLX) /* \_SB_.PCI0.RP09.PXSX.SPLX */
+                }
+
+                PowerResource (WRST, 0x05, 0x0000)
+                {
+                    Method (_STA, 0, NotSerialized)  // _STA: Status
+                    {
+                        ADBG ("PXSX _STA")
+                        Return (One)
+                    }
+
+                    Method (_ON, 0, NotSerialized)  // _ON_: Power On
+                    {
+                        ADBG ("PXSX _ON")
+                    }
+
+                    Method (_OFF, 0, NotSerialized)  // _OFF: Power Off
+                    {
+                        ADBG ("PXSX _OFF")
+                    }
+
+                    Method (_RST, 0, NotSerialized)  // _RST: Device Reset
+                    {
+                        ADBG ("PXSX _RST")
+                        If ((DCAP & 0x10000000))
+                        {
+                            Local0 = DCTR /* \_SB_.PCI0.RP09.PXSX.DCTR */
+                            Local0 |= 0x8000
+                            DCTR = Local0
+                        }
+                    }
+                }
+
+                Name (_PRR, Package (0x01)  // _PRR: Power Resource for Reset
+                {
+                    WRST
+                })
+                Name (WANX, Package (0x03)
+                {
+                    Zero, 
+                    Package (0x03)
+                    {
+                        0x80000000, 
+                        0x80000000, 
+                        0x80000000
+                    }, 
+
+                    Package (0x03)
+                    {
+                        0x80000000, 
+                        0x80000000, 
+                        0x80000000
+                    }
+                })
+                Method (WAND, 0, Serialized)
+                {
+                    DerefOf (WANX [One]) [Zero] = Zero
+                    DerefOf (WANX [One]) [One] = TRD0 /* \TRD0 */
+                    DerefOf (WANX [One]) [0x02] = TRL0 /* \TRL0 */
+                    DerefOf (WANX [0x02]) [Zero] = One
+                    DerefOf (WANX [0x02]) [One] = TRD1 /* \TRD1 */
+                    DerefOf (WANX [0x02]) [0x02] = TRL1 /* \TRL1 */
+                    Return (WANX) /* \_SB_.PCI0.RP09.PXSX.WANX */
+                }
+
+                Name (WRDX, Package (0x03)
+                {
+                    Zero, 
+                    Package (0x02)
+                    {
+                        0x80000000, 
+                        0x8000
+                    }, 
+
+                    Package (0x02)
+                    {
+                        0x80000000, 
+                        0x8000
+                    }
+                })
+                Method (WRDD, 0, Serialized)
+                {
+                    DerefOf (WRDX [One]) [Zero] = WDM1 /* \WDM1 */
+                    DerefOf (WRDX [One]) [One] = CID1 /* \CID1 */
+                    DerefOf (WRDX [0x02]) [Zero] = WDM2 /* \WDM2 */
+                    DerefOf (WRDX [0x02]) [One] = CID2 /* \CID2 */
+                    Return (WRDX) /* \_SB_.PCI0.RP09.PXSX.WRDX */
+                }
+
+                Name (WRDY, Package (0x03)
+                {
+                    Zero, 
+                    Package (0x0C)
+                    {
+                        0x07, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80
+                    }, 
+
+                    Package (0x06)
+                    {
+                        0x10, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80, 
+                        0x80
+                    }
+                })
+                Method (WRDS, 0, Serialized)
+                {
+                    DerefOf (WRDY [One]) [One] = STXE /* \STXE */
+                    DerefOf (WRDY [One]) [0x02] = STX0 /* \STX0 */
+                    DerefOf (WRDY [One]) [0x03] = STX1 /* \STX1 */
+                    DerefOf (WRDY [One]) [0x04] = STX2 /* \STX2 */
+                    DerefOf (WRDY [One]) [0x05] = STX3 /* \STX3 */
+                    DerefOf (WRDY [One]) [0x06] = STX4 /* \STX4 */
+                    DerefOf (WRDY [One]) [0x07] = STX5 /* \STX5 */
+                    DerefOf (WRDY [One]) [0x08] = STX6 /* \STX6 */
+                    DerefOf (WRDY [One]) [0x09] = STX7 /* \STX7 */
+                    DerefOf (WRDY [One]) [0x0A] = STX8 /* \STX8 */
+                    DerefOf (WRDY [One]) [0x0B] = STX9 /* \STX9 */
+                    DerefOf (WRDY [0x02]) [One] = WRFE /* \WRFE */
+                    DerefOf (WRDY [0x02]) [0x02] = WRC1 /* \WRC1 */
+                    DerefOf (WRDY [0x02]) [0x03] = WRC2 /* \WRC2 */
+                    DerefOf (WRDY [0x02]) [0x04] = WRC3 /* \WRC3 */
+                    DerefOf (WRDY [0x02]) [0x05] = WRC4 /* \WRC4 */
+                    Return (WRDY) /* \_SB_.PCI0.RP09.PXSX.WRDY */
+                }
+
+                Method (AWVC, 0, Serialized)
+                {
+                    Return (AWVI) /* \AWVI */
+                }
+
+                Method (WOWG, 0, Serialized)
+                {
+                    Return (WGWS) /* \WGWS */
+                }
+
+                Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+                {
+                    If (PCIC (Arg0))
+                    {
+                        Return (PCID (Arg0, Arg1, Arg2, Arg3))
+                    }
+
+                    If ((Arg0 == ToUUID ("1730e71d-e5dd-4a34-be57-4d76b6a2fe37")))
+                    {
+                        If ((Arg2 == Zero))
+                        {
+                            If ((Arg1 == Zero))
+                            {
+                                Return (Buffer (One)
+                                {
+                                     0x03                                             // .
+                                })
+                            }
+                            Else
+                            {
+                                Return (Buffer (One)
+                                {
+                                     0x00                                             // .
+                                })
+                            }
+                        }
+
+                        If ((Arg2 == One))
+                        {
+                            Switch (ToInteger (DerefOf (Arg3 [Zero])))
+                            {
+                                Case (Zero)
+                                {
+                                }
+                                Case (One)
+                                {
+                                }
+                                Case (0x02)
+                                {
+                                }
+                                Case (0x03)
+                                {
+                                }
+                                Case (0x04)
+                                {
+                                }
+
+                            }
+                        }
+
+                        Return (Zero)
+                    }
+                    ElseIf ((Arg0 == ToUUID ("7574eb17-d1a2-4cc2-9929-4a08fcc29107")))
+                    {
+                        Switch (ToInteger (Arg2))
+                        {
+                            Case (Zero)
+                            {
+                                If ((Arg1 == Zero))
+                                {
+                                    Return (Buffer (One)
+                                    {
+                                         0x07                                             // .
+                                    })
+                                }
+                                Else
+                                {
+                                    Return (Buffer (One)
+                                    {
+                                         0x00                                             // .
+                                    })
+                                }
+                            }
+                            Case (One)
+                            {
+                                Return (WHIT ())
+                            }
+                            Case (0x02)
+                            {
+                                Return (SELF ())
+                            }
+                            Default
+                            {
+                                Return (Buffer (One)
+                                {
+                                     0x00                                             // .
+                                })
+                            }
+
+                        }
+                    }
+                    Else
+                    {
+                        Return (Buffer (One)
+                        {
+                             0x00                                             // .
+                        })
+                    }
                 }
             }
         }
@@ -26293,6 +29101,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 0xFED70000,         // Address Base
                 0x00001000,         // Address Length
                 _Y33)
+
         })
         Name (CRSD, ResourceTemplate ()
         {
@@ -26353,6 +29162,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             }
 
             Return (CRSI) /* \_SB_.TPM_.CRSI */
+
         }
 
         OperationRegion (TMMB, SystemMemory, 0xFED40000, 0x5000)
@@ -26755,6 +29565,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 }
 
                 ADR2 = Local0
+
             }
 
             Method (_HID, 0, NotSerialized)  // _HID: Hardware ID
@@ -26931,7 +29742,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         }
     }
 
-    If ((_OSI ("Darwin") || _OSI ("Windows 2012")))
+    If (_OSI ("Windows 2012"))
     {
         Scope (_SB.PCI0.I2C0.SPTP)
         {
@@ -26949,6 +29760,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         Scope (_GPE)
         {
             Method (LL04, 0, NotSerialized)
+
             {
                 Notify (\_SB.PCI0.I2C0.SPTP, 0x02) // Device Wake
                 Notify (\_SB.PWRB, 0x02) // Device Wake
@@ -27243,7 +30055,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Local0 = 0x07DD
             }
 
-            If ((_OSI ("Darwin") || _OSI ("Windows 2015")))
+            If (_OSI ("Windows 2015"))
             {
                 Local0 = 0x07DF
             }
@@ -27278,7 +30090,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         }
     }
 
-    OperationRegion (SNVS, SystemMemory, 0xD4A88D18, 0xB1)
+    OperationRegion (SNVS, SystemMemory, 0xD4A88D18, 0x00B1)
     Field (SNVS, AnyAcc, Lock, Preserve)
     {
         OSTP,   16, 
@@ -27366,7 +30178,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         {
             If ((ECON == One))
             {
-                PWRS = ^PCI0.LPCB.EC.ACEX /* \_SB_.PCI0.LPCB.EC__.ACEX */
+                PWRS = ^PCI0.LPCB.H_EC.ACEX /* \_SB_.PCI0.LPCB.H_EC.ACEX */
                 GSSM (0x9A, PWRS)
             }
         }
@@ -27397,14 +30209,14 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             If ((Arg0 == 0x05)){}
             If (((Arg0 == 0x03) || (Arg0 == 0x04)))
             {
-                Local0 = B1B4 (^PCI0.LPCB.EC.A1F0, ^PCI0.LPCB.EC.A1F1, ^PCI0.LPCB.EC.A1F2, ^PCI0.LPCB.EC.A1F3)
+                Local0 = ^PCI0.LPCB.H_EC.B1AF /* \_SB_.PCI0.LPCB.H_EC.B1AF */
                 Local0 >>= 0x10
                 Local0 &= 0xFFFF
                 BFCC = Local0
             }
 
             NVGF = Zero
-            SDCK = ^PCI0.LPCB.EC.DCBE /* \_SB_.PCI0.LPCB.EC__.DCBE */
+            SDCK = ^PCI0.LPCB.H_EC.DCBE /* \_SB_.PCI0.LPCB.H_EC.DCBE */
             While (!(PBTN & 0x02))
             {
                 Sleep (0x64)
@@ -27429,9 +30241,9 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             If ((Arg0 == 0x05)){}
             If (((Arg0 == 0x03) || (Arg0 == 0x04)))
             {
-                If ((SDCK != ^PCI0.LPCB.EC.DCBE))
+                If ((SDCK != ^PCI0.LPCB.H_EC.DCBE))
                 {
-                    SDCK = ^PCI0.LPCB.EC.DCBE /* \_SB_.PCI0.LPCB.EC__.DCBE */
+                    SDCK = ^PCI0.LPCB.H_EC.DCBE /* \_SB_.PCI0.LPCB.H_EC.DCBE */
                 }
 
                 If (((Arg0 == 0x03) || (Arg0 == 0x04)))
@@ -27458,25 +30270,25 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     Notify (LID0, 0x80) // Status Change
                 }
 
-                ^PCI0.LPCB.EC.DPPF = ^PCI0.LPCB.EC.DPTE /* \_SB_.PCI0.LPCB.EC__.DPTE */
+                ^PCI0.LPCB.H_EC.DPPF = ^PCI0.LPCB.H_EC.DPTE /* \_SB_.PCI0.LPCB.H_EC.DPTE */
             }
 
             If ((ECON == One))
             {
-                If ((^PCI0.LPCB.EC.ACEX != PWRS))
+                If ((^PCI0.LPCB.H_EC.ACEX != PWRS))
                 {
-                    PWRS = ^PCI0.LPCB.EC.ACEX /* \_SB_.PCI0.LPCB.EC__.ACEX */
+                    PWRS = ^PCI0.LPCB.H_EC.ACEX /* \_SB_.PCI0.LPCB.H_EC.ACEX */
                     CCRN ()
                 }
 
-                If ((^PCI0.LPCB.EC.TIST != Zero))
+                If ((^PCI0.LPCB.H_EC.TIST != Zero))
                 {
-                    If ((((CPTY & 0x80) == 0x80) && (^PCI0.LPCB.EC.TIST == One)))
+                    If ((((CPTY & 0x80) == 0x80) && (^PCI0.LPCB.H_EC.TIST == One)))
                     {
                         GSSM (0xAA, Zero)
                     }
 
-                    RIST = ^PCI0.LPCB.EC.TZCH ()
+                    RIST = ^PCI0.LPCB.H_EC.TZCH ()
                     If ((NVPL > RIST))
                     {
                         PPCS = NVPL /* \NVPL */
@@ -27491,7 +30303,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 }
             }
 
-            Local0 = B1B4 (^PCI0.LPCB.EC.A1F0, ^PCI0.LPCB.EC.A1F1, ^PCI0.LPCB.EC.A1F2, ^PCI0.LPCB.EC.A1F3)
+            Local0 = ^PCI0.LPCB.H_EC.B1AF /* \_SB_.PCI0.LPCB.H_EC.B1AF */
             Local0 >>= 0x10
             Local0 &= 0xFFFF
             If ((Local0 != BFCC))
@@ -27648,7 +30460,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
     Scope (_SB.PCI0.LPCB)
     {
-        Device (EC)
+        Device (H_EC)
         {
             Name (_HID, EisaId ("PNP0C09") /* Embedded Controller Device */)  // _HID: Hardware ID
             Name (_UID, One)  // _UID: Unique ID
@@ -27669,7 +30481,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                         0x01,               // Length
                         )
                 })
-                Return (BFFR) /* \_SB_.PCI0.LPCB.EC__._CRS.BFFR */
+                Return (BFFR) /* \_SB_.PCI0.LPCB.H_EC._CRS.BFFR */
             }
 
             Method (_REG, 2, NotSerialized)  // _REG: Region Availability
@@ -27677,7 +30489,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 If (((Arg0 == 0x03) && (Arg1 == One)))
                 {
                     ECON = One
-                    DPPF = DPTE /* \_SB_.PCI0.LPCB.EC__.DPTE */
+                    DPPF = DPTE /* \_SB_.PCI0.LPCB.H_EC.DPTE */
                     If ((LIDS == Zero))
                     {
                         ^^^GFX0.CLID = Zero
@@ -27688,7 +30500,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                         ^^^GFX0.CLID = 0x03
                     }
 
-                    PWRS = ACEX /* \_SB_.PCI0.LPCB.EC__.ACEX */
+                    PWRS = ACEX /* \_SB_.PCI0.LPCB.H_EC.ACEX */
                     GSSM (0x9A, PWRS)
                     BEST = Zero
                     If ((PWRS == One))
@@ -27731,10 +30543,14 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 {
                     Local1 = SizeOf (\_PR.PR00.TPSS)
                 }
+                Else
+                {
+                    Local1 = SizeOf (\_PR.PR00.LPSS)
+                }
 
                 If ((ECON == One))
                 {
-                    TZON = TIST /* \_SB_.PCI0.LPCB.EC__.TIST */
+                    TZON = TIST /* \_SB_.PCI0.LPCB.H_EC.TIST */
                 }
                 Else
                 {
@@ -27839,7 +30655,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         }
     }
 
-    Scope (_SB.PCI0.LPCB.EC)
+    Scope (_SB.PCI0.LPCB.H_EC)
     {
         OperationRegion (ECR, EmbeddedControl, Zero, 0xFF)
         Field (ECR, ByteAcc, Lock, Preserve)
@@ -27906,8 +30722,9 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             SLFL,   2, 
             Offset (0x90), 
             SWST,   8, 
-            TPC0,   8, 
-            TPC1,   8, 
+            BTPC,   16, 
+
+
             LUXH,   8, 
             LUXL,   8, 
             Offset (0x96), 
@@ -27919,24 +30736,28 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             CSMF,   8, 
             CSST,   8, 
             EPTS,   8, 
-            R1R0,   8, 
-            R1R1,   8, 
-            R1R2,   8, 
-            R1R3,   8, 
-            P1V0,   8, 
-            P1V1,   8, 
-            P1V2,   8, 
-            P1V3,   8, 
+            B1RR,   32, 
+            B1PV,   32, 
+
+
+
+
+
+
+
+
             B2RR,   32, 
             B2PV,   32, 
-            A1F0,   8, 
-            A1F1,   8, 
-            A1F2,   8, 
-            A1F3,   8, 
-            V1L0,   8, 
-            V1L1,   8, 
-            V1L2,   8, 
-            V1L3,   8, 
+            B1AF,   32, 
+            B1VL,   32, 
+
+
+
+
+
+
+
+
             B2AF,   32, 
             B2VL,   32, 
             CTMP,   8, 
@@ -27946,14 +30767,15 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Offset (0xC7), 
             TIST,   8, 
             Offset (0xD0), 
-            YLC0,   8, 
-            YLC1,   8
+            CYLC,   16
+
+
         }
     }
 
-    Scope (_SB.PCI0.LPCB.EC)
+    Scope (_SB.PCI0.LPCB.H_EC)
     {
-        Method (_Q51, 0, Serialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q51, 0, Serialized)  // _Qxx: EC Query
         {
             P8XH (Zero, 0x51)
             PWRS = One
@@ -27981,7 +30803,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             GSSM (0xF6, One)
         }
 
-        Method (_Q52, 0, Serialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q52, 0, Serialized)  // _Qxx: EC Query
         {
             P8XH (Zero, 0x52)
             PWRS = Zero
@@ -28009,7 +30831,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             GSSM (0xF6, Zero)
         }
 
-        Method (_Q53, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q53, 0, NotSerialized)  // _Qxx: EC Query
         {
             P8XH (Zero, 0x53)
             Notify (BAT1, One) // Device Check
@@ -28017,7 +30839,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             PNOT ()
         }
 
-        Method (_Q54, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q54, 0, NotSerialized)  // _Qxx: EC Query
         {
             P8XH (Zero, 0x54)
             Notify (BAT1, One) // Device Check
@@ -28025,19 +30847,19 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             PNOT ()
         }
 
-        Method (_Q57, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q57, 0, NotSerialized)  // _Qxx: EC Query
         {
         }
 
-        Method (_Q58, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q58, 0, NotSerialized)  // _Qxx: EC Query
         {
         }
 
-        Method (_Q5B, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q5B, 0, NotSerialized)  // _Qxx: EC Query
         {
         }
 
-        Method (_Q5E, 0, Serialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q5E, 0, Serialized)  // _Qxx: EC Query
         {
             P8XH (Zero, LSTE)
             If ((BSUF == One))
@@ -28050,7 +30872,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Return (Zero)
             }
 
-            LIDS = LSTE /* \_SB_.PCI0.LPCB.EC__.LSTE */
+            LIDS = LSTE /* \_SB_.PCI0.LPCB.H_EC.LSTE */
             Sleep (0x012C)
             Sleep (0x012C)
             If (IGDS)
@@ -28064,7 +30886,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Notify (LID0, 0x80) // Status Change
         }
 
-        Method (_Q5F, 0, Serialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q5F, 0, Serialized)  // _Qxx: EC Query
         {
             P8XH (Zero, LSTE)
             If ((BSUF == One))
@@ -28077,7 +30899,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Return (Zero)
             }
 
-            LIDS = LSTE /* \_SB_.PCI0.LPCB.EC__.LSTE */
+            LIDS = LSTE /* \_SB_.PCI0.LPCB.H_EC.LSTE */
             If (IGDS)
             {
                 If ((RELT != 0xDA))
@@ -28089,48 +30911,79 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Notify (LID0, 0x80) // Status Change
         }
 
-        Method (_Q60, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q60, 0, NotSerialized)  // _Qxx: EC Query
         {
             Notify (BAT1, 0x80) // Status Change
         }
 
-        Method (_Q61, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q61, 0, NotSerialized)  // _Qxx: EC Query
         {
             Notify (BAT1, 0x80) // Status Change
         }
 
-        Method (_Q63, 0, Serialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q63, 0, Serialized)  // _Qxx: EC Query
         {
-            Notify (PS2K, 0x0405)
+
+            P8XH (Zero, 0x63)
+            If ((OSYS >= 0x07DC))
+            {
+                If (!^^^GFX0.PDRD ())
+                {
+                    BRTN (0x87)
+                }
+                ElseIf (CondRefOf (\_SB.PCI0.PEG0.PEGP.LCD)){}
+            }
+            Else
+            {
+                GSSM (0x88, Zero)
+            }
         }
 
-        Method (_Q64, 0, Serialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q64, 0, Serialized)  // _Qxx: EC Query
         {
-            Notify (PS2K, 0x0406)
+
+            P8XH (Zero, 0x64)
+            If ((OSYS >= 0x07DC))
+            {
+                If (!^^^GFX0.PDRD ())
+                {
+                    BRTN (0x86)
+                }
+                ElseIf (CondRefOf (\_SB.PCI0.PEG0.PEGP.LCD)){}
+            }
+            Else
+            {
+                GSSM (0x89, Zero)
+            }
         }
 
-        Method (_Q65, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q65, 0, NotSerialized)  // _Qxx: EC Query
         {
             Notify (\_TZ.TZ00, 0x80) // Thermal Status Change
         }
 
-        Method (_Q66, 0, Serialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q66, 0, Serialized)  // _Qxx: EC Query
         {
             Notify (BAT1, 0x80) // Status Change
         }
 
-        Method (_Q6E, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q6E, 0, NotSerialized)  // _Qxx: EC Query
         {
             P8XH (Zero, 0x6E)
-            Local0 = TSSR /* \_SB_.PCI0.LPCB.EC__.TSSR */
+            Local0 = TSSR /* \_SB_.PCI0.LPCB.H_EC.TSSR */
             While (Local0)
             {
                 TSSR = Zero
-                Local0 = TSSR /* \_SB_.PCI0.LPCB.EC__.TSSR */
+                If (Local1 = (Local0 & One))
+                {
+                    Notify (SEN1, 0x90) // Device-Specific
+                }
+
+                Local0 = TSSR /* \_SB_.PCI0.LPCB.H_EC.TSSR */
             }
         }
 
-        Method (_Q73, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q73, 0, NotSerialized)  // _Qxx: EC Query
         {
             P8XH (Zero, 0x73)
             If ((DPTE && ((SLFL == Zero) && (PPCS == Zero))))
@@ -28171,7 +31024,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             }
         }
 
-        Method (_Q7C, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q7C, 0, NotSerialized)  // _Qxx: EC Query
         {
             P8XH (Zero, 0x7C)
             NTCA (SCAI)
@@ -28335,8 +31188,10 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 }
                 Else
                 {
-                    Local3 = B1B4 (^^PCI0.LPCB.EC.A1F0, ^^PCI0.LPCB.EC.A1F1, ^^PCI0.LPCB.EC.A1F2, ^^PCI0.LPCB.EC.A1F3)
-                    Local4 = B1B4 (^^PCI0.LPCB.EC.V1L0, ^^PCI0.LPCB.EC.V1L1, ^^PCI0.LPCB.EC.V1L2, ^^PCI0.LPCB.EC.V1L3)
+                    Local3 = ^^PCI0.LPCB.H_EC.B1AF /* \_SB_.PCI0.LPCB.H_EC.B1AF */
+                    Local4 = ^^PCI0.LPCB.H_EC.B1VL /* \_SB_.PCI0.LPCB.H_EC.B1VL */
+
+
                     Local0 = Local3
                     Local0 &= 0xFFFF
                     Local1 = (Local0 << 0x08)
@@ -28419,7 +31274,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                         BIXP [0x07] = Zero
                     }
 
-                    Local0 = B1B2 (^^PCI0.LPCB.EC.YLC0, ^^PCI0.LPCB.EC.YLC1)
+                    Local0 = ^^PCI0.LPCB.H_EC.CYLC /* \_SB_.PCI0.LPCB.H_EC.CYLC */
                     Local0 &= 0xFFFF
                     Local1 = (Local0 << 0x08)
                     Local1 &= 0xFF00
@@ -28521,14 +31376,15 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 }
                 Else
                 {
-                    Local3 = B1B4 (^^PCI0.LPCB.EC.R1R0, ^^PCI0.LPCB.EC.R1R1, ^^PCI0.LPCB.EC.R1R2, ^^PCI0.LPCB.EC.R1R3)
+                    Local3 = ^^PCI0.LPCB.H_EC.B1RR /* \_SB_.PCI0.LPCB.H_EC.B1RR */
+
                     Local0 = Local3
                     Local0 &= 0xFF
                     If (((Local0 != Zero) && (Local0 != 0x05)))
                     {
                         If ((PWRS == One))
                         {
-                            If ((^^PCI0.LPCB.EC.EPTS == 0x81))
+                            If ((^^PCI0.LPCB.H_EC.EPTS == 0x81))
                             {
                                 Local0 = One
                             }
@@ -28561,7 +31417,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     }
 
                     Sleep (0x64)
-                    Local4 = B1B4 (^^PCI0.LPCB.EC.P1V0, ^^PCI0.LPCB.EC.P1V1, ^^PCI0.LPCB.EC.P1V2, ^^PCI0.LPCB.EC.P1V3)
+                    Local4 = ^^PCI0.LPCB.H_EC.B1PV /* \_SB_.PCI0.LPCB.H_EC.B1PV */
+
                     Local0 = Local4
                     Local0 &= 0xFFFF
                     Local1 = (Local0 << 0x08)
@@ -28620,8 +31477,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     Local1 &= 0xFF00
                     Local0 >>= 0x08
                     Local0 |= Local1
-                    ^^PCI0.LPCB.EC.TPC0 = Local0
-                    ^^PCI0.LPCB.EC.TPC1 = (Local0 >> 0x08)
+                    ^^PCI0.LPCB.H_EC.BTPC = Local0
+
                 }
             }
 
@@ -28638,7 +31495,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                         Local0 = 0x0F
                     }
                 }
-                ElseIf ((^^PCI0.LPCB.EC.B1EX == One))
+                ElseIf ((^^PCI0.LPCB.H_EC.B1EX == One))
                 {
                     Local0 = 0x1F
                 }
@@ -28728,36 +31585,36 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Return ((0x0AAC + (CRTP * 0x0A)))
             }
 
-            Method (_AC0, 0, Serialized)  // _ACx: Active Cooling, x=0-9
+            Method (_AC0, 0, Serialized)  // _ACx: Active Cooling
             {
                 Return ((0x0AAC + (ACTT * 0x0A)))
             }
 
-            Method (_AC1, 0, Serialized)  // _ACx: Active Cooling, x=0-9
+            Method (_AC1, 0, Serialized)  // _ACx: Active Cooling
             {
                 Return ((0x0AAC + (ACT1 * 0x0A)))
             }
 
-            Method (_AC2, 0, Serialized)  // _ACx: Active Cooling, x=0-9
+            Method (_AC2, 0, Serialized)  // _ACx: Active Cooling
             {
                 Return (0x0AAC)
             }
 
-            Method (_AC3, 0, Serialized)  // _ACx: Active Cooling, x=0-9
+            Method (_AC3, 0, Serialized)  // _ACx: Active Cooling
             {
                 Return (0x0AAC)
             }
 
-            Method (_AC4, 0, Serialized)  // _ACx: Active Cooling, x=0-9
+            Method (_AC4, 0, Serialized)  // _ACx: Active Cooling
             {
                 Return (0x0AAC)
             }
 
-            Name (_AL0, Package (0x01)  // _ALx: Active List, x=0-9
+            Name (_AL0, Package (0x01)  // _ALx: Active List
             {
                 FAN0
             })
-            Name (_AL1, Package (0x01)  // _ALx: Active List, x=0-9
+            Name (_AL1, Package (0x01)  // _ALx: Active List
             {
                 FAN1
             })
@@ -28765,7 +31622,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             {
                 If (ECON)
                 {
-                    Local0 = \_SB.PCI0.LPCB.EC.CTMP
+                    Local0 = \_SB.PCI0.LPCB.H_EC.CTMP
                     If ((Local0 != 0xFF))
                     {
                         Return ((0x0AAC + (Local0 * 0x0A)))
@@ -28860,7 +31717,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             {
                 If (ECON)
                 {
-                    Local0 = \_SB.PCI0.LPCB.EC.CTMP
+                    Local0 = \_SB.PCI0.LPCB.H_EC.CTMP
                     If ((Local0 != 0xFF))
                     {
                         Return ((0x0AAC + (Local0 * 0x0A)))
@@ -30001,19 +32858,100 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             }
         }
     }
-
-    Method (B1B2, 2, NotSerialized)
-    {
-        Return ((Arg0 | (Arg1 << 0x08)))
-    }
-
-    Method (B1B4, 4, NotSerialized)
-    {
-        Local0 = Arg3
-        Local0 = (Arg2 | (Local0 << 0x08))
-        Local0 = (Arg1 | (Local0 << 0x08))
-        Local0 = (Arg0 | (Local0 << 0x08))
-        Return (Local0)
-    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
