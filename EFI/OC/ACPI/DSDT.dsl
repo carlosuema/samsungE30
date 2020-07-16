@@ -11491,6 +11491,37 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
             Zero
         })
+        
+        Method (PMPM, 4, NotSerialized)
+    {
+        If ((Arg2 == Zero))
+        {
+            Return (Buffer (One)
+            {
+                 0x03                                             // .
+            })
+        }
+
+        Return (Package (0x02)
+        {
+            "plugin-type", 
+            One
+        })
+    }
+
+    If (CondRefOf (\_PR.PR00))
+    {
+        If ((ObjectType (\_PR.PR00) == 0x0C))
+        {
+            Scope (\_PR.PR00)
+            {
+                Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
+                {
+                    Return (PMPM (Arg0, Arg1, Arg2, Arg3))
+                }
+            }
+        }
+    }
 
 
 
