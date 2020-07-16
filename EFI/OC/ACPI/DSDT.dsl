@@ -30938,37 +30938,14 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         Method (_Q63, 0, Serialized)  // _Qxx: EC Query
         {
 
-            P8XH (Zero, 0x63)
-            If ((OSYS >= 0x07DC))
-            {
-                If (!^^^GFX0.PDRD ())
-                {
-                    BRTN (0x87)
-                }
-                ElseIf (CondRefOf (\_SB.PCI0.PEG0.PEGP.LCD)){}
-            }
-            Else
-            {
-                GSSM (0x88, Zero)
-            }
+           Notify (PS2K, 0x0405)
         }
 
         Method (_Q64, 0, Serialized)  // _Qxx: EC Query
         {
 
-            P8XH (Zero, 0x64)
-            If ((OSYS >= 0x07DC))
-            {
-                If (!^^^GFX0.PDRD ())
-                {
-                    BRTN (0x86)
-                }
-                ElseIf (CondRefOf (\_SB.PCI0.PEG0.PEGP.LCD)){}
-            }
-            Else
-            {
-                GSSM (0x89, Zero)
-            }
+            Notify (PS2K, 0x0406)
+
         }
 
         Method (_Q65, 0, NotSerialized)  // _Qxx: EC Query
