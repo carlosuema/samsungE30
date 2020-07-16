@@ -75,8 +75,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
     External (_SB_.PCI0.HDAS.PPMS, MethodObj)    // 1 Arguments
     External (_SB_.PCI0.HDAS.PS0X, MethodObj)    // 0 Arguments
     External (_SB_.PCI0.HDAS.PS3X, MethodObj)    // 0 Arguments
-    External (_SB_.PCI0.LPCB.H_EC.CHRG, DeviceObj)
-    External (_SB_.PCI0.LPCB.H_EC.SEN1, DeviceObj)
+    External (_SB_.PCI0.LPCB.EC.CHRG, DeviceObj)
+    External (_SB_.PCI0.LPCB.EC.SEN1, DeviceObj)
     External (_SB_.PCI0.PEG0.HPME, MethodObj)    // 0 Arguments
     External (_SB_.PCI0.PEG0.PEGP.LCD_, DeviceObj)
     External (_SB_.PCI0.PEG1.HPME, MethodObj)    // 0 Arguments
@@ -19887,7 +19887,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             GPEC = Zero
             If ((IGDS && ((0x04 & DSEN) == Zero)))
             {
-                \_SB.PCI0.LPCB.H_EC.BRIT = BRTV /* \BRTV */
+                \_SB.PCI0.LPCB.EC.BRIT = BRTV /* \BRTV */
                 BRTL = BRTV /* \BRTV */
             }
             Else
@@ -19954,9 +19954,9 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Return (Zero)
             }
 
-            If ((\_SB.PCI0.LPCB.H_EC.LSTE != LIDS))
+            If ((\_SB.PCI0.LPCB.EC.LSTE != LIDS))
             {
-                LIDS = \_SB.PCI0.LPCB.H_EC.LSTE
+                LIDS = \_SB.PCI0.LPCB.EC.LSTE
                 If (IGDS)
                 {
                     If (\_SB.PCI0.GFX0.GLID (LIDS))
@@ -30178,7 +30178,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         {
             If ((ECON == One))
             {
-                PWRS = ^PCI0.LPCB.H_EC.ACEX /* \_SB_.PCI0.LPCB.H_EC.ACEX */
+                PWRS = ^PCI0.LPCB.EC.ACEX /* \_SB_.PCI0.LPCB.EC.ACEX */
                 GSSM (0x9A, PWRS)
             }
         }
@@ -30209,14 +30209,14 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             If ((Arg0 == 0x05)){}
             If (((Arg0 == 0x03) || (Arg0 == 0x04)))
             {
-                Local0 = ^PCI0.LPCB.H_EC.B1AF /* \_SB_.PCI0.LPCB.H_EC.B1AF */
+                Local0 = B1B4 (^PCI0.LPCB.EC.A1F0, ^PCI0.LPCB.EC.A1F1, ^PCI0.LPCB.EC.A1F2, ^PCI0.LPCB.EC.A1F3) /* \_SB_.PCI0.LPCB.EC.B1AF */
                 Local0 >>= 0x10
                 Local0 &= 0xFFFF
                 BFCC = Local0
             }
 
             NVGF = Zero
-            SDCK = ^PCI0.LPCB.H_EC.DCBE /* \_SB_.PCI0.LPCB.H_EC.DCBE */
+            SDCK = ^PCI0.LPCB.EC.DCBE /* \_SB_.PCI0.LPCB.EC.DCBE */
             While (!(PBTN & 0x02))
             {
                 Sleep (0x64)
@@ -30241,9 +30241,9 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             If ((Arg0 == 0x05)){}
             If (((Arg0 == 0x03) || (Arg0 == 0x04)))
             {
-                If ((SDCK != ^PCI0.LPCB.H_EC.DCBE))
+                If ((SDCK != ^PCI0.LPCB.EC.DCBE))
                 {
-                    SDCK = ^PCI0.LPCB.H_EC.DCBE /* \_SB_.PCI0.LPCB.H_EC.DCBE */
+                    SDCK = ^PCI0.LPCB.EC.DCBE /* \_SB_.PCI0.LPCB.EC.DCBE */
                 }
 
                 If (((Arg0 == 0x03) || (Arg0 == 0x04)))
@@ -30270,25 +30270,25 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     Notify (LID0, 0x80) // Status Change
                 }
 
-                ^PCI0.LPCB.H_EC.DPPF = ^PCI0.LPCB.H_EC.DPTE /* \_SB_.PCI0.LPCB.H_EC.DPTE */
+                ^PCI0.LPCB.EC.DPPF = ^PCI0.LPCB.EC.DPTE /* \_SB_.PCI0.LPCB.EC.DPTE */
             }
 
             If ((ECON == One))
             {
-                If ((^PCI0.LPCB.H_EC.ACEX != PWRS))
+                If ((^PCI0.LPCB.EC.ACEX != PWRS))
                 {
-                    PWRS = ^PCI0.LPCB.H_EC.ACEX /* \_SB_.PCI0.LPCB.H_EC.ACEX */
+                    PWRS = ^PCI0.LPCB.EC.ACEX /* \_SB_.PCI0.LPCB.EC.ACEX */
                     CCRN ()
                 }
 
-                If ((^PCI0.LPCB.H_EC.TIST != Zero))
+                If ((^PCI0.LPCB.EC.TIST != Zero))
                 {
-                    If ((((CPTY & 0x80) == 0x80) && (^PCI0.LPCB.H_EC.TIST == One)))
+                    If ((((CPTY & 0x80) == 0x80) && (^PCI0.LPCB.EC.TIST == One)))
                     {
                         GSSM (0xAA, Zero)
                     }
 
-                    RIST = ^PCI0.LPCB.H_EC.TZCH ()
+                    RIST = ^PCI0.LPCB.EC.TZCH ()
                     If ((NVPL > RIST))
                     {
                         PPCS = NVPL /* \NVPL */
@@ -30303,7 +30303,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 }
             }
 
-            Local0 = ^PCI0.LPCB.H_EC.B1AF /* \_SB_.PCI0.LPCB.H_EC.B1AF */
+            Local0 = B1B4 (^PCI0.LPCB.EC.A1F0, ^PCI0.LPCB.EC.A1F1, ^PCI0.LPCB.EC.A1F2, ^PCI0.LPCB.EC.A1F3)
             Local0 >>= 0x10
             Local0 &= 0xFFFF
             If ((Local0 != BFCC))
@@ -30460,7 +30460,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
     Scope (_SB.PCI0.LPCB)
     {
-        Device (H_EC)
+        Device (EC)
         {
             Name (_HID, EisaId ("PNP0C09") /* Embedded Controller Device */)  // _HID: Hardware ID
             Name (_UID, One)  // _UID: Unique ID
@@ -30481,7 +30481,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                         0x01,               // Length
                         )
                 })
-                Return (BFFR) /* \_SB_.PCI0.LPCB.H_EC._CRS.BFFR */
+                Return (BFFR) /* \_SB_.PCI0.LPCB.EC._CRS.BFFR */
             }
 
             Method (_REG, 2, NotSerialized)  // _REG: Region Availability
@@ -30489,7 +30489,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 If (((Arg0 == 0x03) && (Arg1 == One)))
                 {
                     ECON = One
-                    DPPF = DPTE /* \_SB_.PCI0.LPCB.H_EC.DPTE */
+                    DPPF = DPTE /* \_SB_.PCI0.LPCB.EC.DPTE */
                     If ((LIDS == Zero))
                     {
                         ^^^GFX0.CLID = Zero
@@ -30500,7 +30500,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                         ^^^GFX0.CLID = 0x03
                     }
 
-                    PWRS = ACEX /* \_SB_.PCI0.LPCB.H_EC.ACEX */
+                    PWRS = ACEX /* \_SB_.PCI0.LPCB.EC.ACEX */
                     GSSM (0x9A, PWRS)
                     BEST = Zero
                     If ((PWRS == One))
@@ -30550,7 +30550,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
                 If ((ECON == One))
                 {
-                    TZON = TIST /* \_SB_.PCI0.LPCB.H_EC.TIST */
+                    TZON = TIST /* \_SB_.PCI0.LPCB.EC.TIST */
                 }
                 Else
                 {
@@ -30655,7 +30655,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         }
     }
 
-    Scope (_SB.PCI0.LPCB.H_EC)
+    Scope (_SB.PCI0.LPCB.EC)
     {
         OperationRegion (ECR, EmbeddedControl, Zero, 0xFF)
         Field (ECR, ByteAcc, Lock, Preserve)
@@ -30722,7 +30722,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             SLFL,   2, 
             Offset (0x90), 
             SWST,   8, 
-            BTPC,   16, 
+            TPC0,   8, 
+            TPC1,   8,  
 
 
             LUXH,   8, 
@@ -30736,8 +30737,14 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             CSMF,   8, 
             CSST,   8, 
             EPTS,   8, 
-            B1RR,   32, 
-            B1PV,   32, 
+            R1R0,   8, 
+            R1R1,   8, 
+            R1R2,   8, 
+            R1R3,   8, 
+            P1V0,   8, 
+            P1V1,   8, 
+            P1V2,   8, 
+            P1V3,   8, 
 
 
 
@@ -30748,8 +30755,14 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
             B2RR,   32, 
             B2PV,   32, 
-            B1AF,   32, 
-            B1VL,   32, 
+            A1F0,   8, 
+            A1F1,   8, 
+            A1F2,   8, 
+            A1F3,   8, 
+            V1L0,   8, 
+            V1L1,   8, 
+            V1L2,   8, 
+            V1L3,   8, 
 
 
 
@@ -30767,13 +30780,14 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             Offset (0xC7), 
             TIST,   8, 
             Offset (0xD0), 
-            CYLC,   16
+            YLC0,   8, 
+            YLC1,   8
 
 
         }
     }
 
-    Scope (_SB.PCI0.LPCB.H_EC)
+    Scope (_SB.PCI0.LPCB.EC)
     {
         Method (_Q51, 0, Serialized)  // _Qxx: EC Query
         {
@@ -30872,7 +30886,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Return (Zero)
             }
 
-            LIDS = LSTE /* \_SB_.PCI0.LPCB.H_EC.LSTE */
+            LIDS = LSTE /* \_SB_.PCI0.LPCB.EC.LSTE */
             Sleep (0x012C)
             Sleep (0x012C)
             If (IGDS)
@@ -30899,7 +30913,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Return (Zero)
             }
 
-            LIDS = LSTE /* \_SB_.PCI0.LPCB.H_EC.LSTE */
+            LIDS = LSTE /* \_SB_.PCI0.LPCB.EC.LSTE */
             If (IGDS)
             {
                 If ((RELT != 0xDA))
@@ -30970,7 +30984,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
         Method (_Q6E, 0, NotSerialized)  // _Qxx: EC Query
         {
             P8XH (Zero, 0x6E)
-            Local0 = TSSR /* \_SB_.PCI0.LPCB.H_EC.TSSR */
+            Local0 = TSSR /* \_SB_.PCI0.LPCB.EC.TSSR */
             While (Local0)
             {
                 TSSR = Zero
@@ -30979,7 +30993,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     Notify (SEN1, 0x90) // Device-Specific
                 }
 
-                Local0 = TSSR /* \_SB_.PCI0.LPCB.H_EC.TSSR */
+                Local0 = TSSR /* \_SB_.PCI0.LPCB.EC.TSSR */
             }
         }
 
@@ -31188,9 +31202,9 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 }
                 Else
                 {
-                    Local3 = ^^PCI0.LPCB.H_EC.B1AF /* \_SB_.PCI0.LPCB.H_EC.B1AF */
-                    Local4 = ^^PCI0.LPCB.H_EC.B1VL /* \_SB_.PCI0.LPCB.H_EC.B1VL */
-
+                    Local3 = B1B4 (^^PCI0.LPCB.EC.A1F0, ^^PCI0.LPCB.EC.A1F1, ^^PCI0.LPCB.EC.A1F2, ^^PCI0.LPCB.EC.A1F3)
+                    Local4 = B1B4 (^^PCI0.LPCB.EC.V1L0, ^^PCI0.LPCB.EC.V1L1, ^^PCI0.LPCB.EC.V1L2, ^^PCI0.LPCB.EC.V1L3)
+                    
 
                     Local0 = Local3
                     Local0 &= 0xFFFF
@@ -31274,7 +31288,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                         BIXP [0x07] = Zero
                     }
 
-                    Local0 = ^^PCI0.LPCB.H_EC.CYLC /* \_SB_.PCI0.LPCB.H_EC.CYLC */
+                    Local0 = B1B2 (^^PCI0.LPCB.EC.YLC0, ^^PCI0.LPCB.EC.YLC1)
                     Local0 &= 0xFFFF
                     Local1 = (Local0 << 0x08)
                     Local1 &= 0xFF00
@@ -31376,7 +31390,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 }
                 Else
                 {
-                    Local3 = ^^PCI0.LPCB.H_EC.B1RR /* \_SB_.PCI0.LPCB.H_EC.B1RR */
+                    Local3 = B1B4 (^^PCI0.LPCB.EC.R1R0, ^^PCI0.LPCB.EC.R1R1, ^^PCI0.LPCB.EC.R1R2, ^^PCI0.LPCB.EC.R1R3)
 
                     Local0 = Local3
                     Local0 &= 0xFF
@@ -31384,7 +31398,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     {
                         If ((PWRS == One))
                         {
-                            If ((^^PCI0.LPCB.H_EC.EPTS == 0x81))
+                            If ((^^PCI0.LPCB.EC.EPTS == 0x81))
                             {
                                 Local0 = One
                             }
@@ -31417,7 +31431,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     }
 
                     Sleep (0x64)
-                    Local4 = ^^PCI0.LPCB.H_EC.B1PV /* \_SB_.PCI0.LPCB.H_EC.B1PV */
+                    Local4 = B1B4 (^^PCI0.LPCB.EC.P1V0, ^^PCI0.LPCB.EC.P1V1, ^^PCI0.LPCB.EC.P1V2, ^^PCI0.LPCB.EC.P1V3)
 
                     Local0 = Local4
                     Local0 &= 0xFFFF
@@ -31477,7 +31491,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     Local1 &= 0xFF00
                     Local0 >>= 0x08
                     Local0 |= Local1
-                    ^^PCI0.LPCB.H_EC.BTPC = Local0
+                    ^^PCI0.LPCB.EC.TPC0 = Local0
+                    ^^PCI0.LPCB.EC.TPC1 = (Local0 >> 0x08)
 
                 }
             }
@@ -31495,7 +31510,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                         Local0 = 0x0F
                     }
                 }
-                ElseIf ((^^PCI0.LPCB.H_EC.B1EX == One))
+                ElseIf ((^^PCI0.LPCB.EC.B1EX == One))
                 {
                     Local0 = 0x1F
                 }
@@ -31622,7 +31637,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             {
                 If (ECON)
                 {
-                    Local0 = \_SB.PCI0.LPCB.H_EC.CTMP
+                    Local0 = \_SB.PCI0.LPCB.EC.CTMP
                     If ((Local0 != 0xFF))
                     {
                         Return ((0x0AAC + (Local0 * 0x0A)))
@@ -31717,7 +31732,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             {
                 If (ECON)
                 {
-                    Local0 = \_SB.PCI0.LPCB.H_EC.CTMP
+                    Local0 = \_SB.PCI0.LPCB.EC.CTMP
                     If ((Local0 != 0xFF))
                     {
                         Return ((0x0AAC + (Local0 * 0x0A)))
@@ -32857,6 +32872,19 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                 Notify (SCAI, Arg0)
             }
         }
+    }
+    Method (B1B2, 2, NotSerialized)
+    {
+        Return ((Arg0 | (Arg1 << 0x08)))
+    }
+
+    Method (B1B4, 4, NotSerialized)
+    {
+        Local0 = Arg3
+        Local0 = (Arg2 | (Local0 << 0x08))
+        Local0 = (Arg1 | (Local0 << 0x08))
+        Local0 = (Arg0 | (Local0 << 0x08))
+        Return (Local0)
     }
 }
 
