@@ -15909,17 +15909,9 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
 
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
-                If ((SBRG == Zero))
-                {
-                    Return (Zero)
-                }
-
-                If ((GPEN == Zero))
-                {
-                    Return (Zero)
-                }
-
+                
                 Return (0x0F)
+
             }
         }
     }
@@ -19017,7 +19009,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     OSYS = 0x07DD
                 }
 
-                If (_OSI ("Windows 2015"))
+                If(LOr(_OSI("Darwin"),_OSI("Windows 2015")))
                 {
                     OSYS = 0x07DF
                 }
@@ -28741,8 +28733,8 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
             {
                 Local0 = 0x07DD
             }
-
-            If (_OSI ("Windows 2015"))
+            
+            If(LOr(_OSI("Darwin"),_OSI("Windows 2015")))
             {
                 Local0 = 0x07DF
             }
