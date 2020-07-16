@@ -28201,7 +28201,7 @@ DefinitionBlock ("", "DSDT", 2, "SECCSD", "LH43STAR", 0x01072009)
                     "\\_SB.PCI0.GPI0", 0x00, ResourceConsumer, ,
                     )
                     {   // Pin list
-                        0x0000
+                        0x17
                     }
             })
             CreateByteField (SBFS, \_SB.PCI0.I2C0.SPTP._Y36._ADR, ADR2)  // _ADR: Address
